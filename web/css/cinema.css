@@ -1,0 +1,16 @@
+body {
+
+}
+
+*{
+    margin: 0;
+}
+
+.top, span{
+    display: block;
+}
+
+.top{
+    background-color: #1591ea;
+    color: #8fd9fb;
+}
