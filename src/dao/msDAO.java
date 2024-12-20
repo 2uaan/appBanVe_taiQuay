@@ -33,8 +33,24 @@ public class msDAO {
 			ResultSet kq = pst.executeQuery();
 			
 			while(kq.next()) {
-				int id = kq.getInt("ms_id");
-				ms.setMs_id(id);
+				int ms_id, m_id, order_cinema;
+				String time_in, time_out, day;
+				
+				ms_id = kq.getInt("ms_id");
+				m_id = kq.getInt("m_id");
+				order_cinema = kq.getInt("order_cinema");
+				time_in = kq.getString("time_in");
+				time_out = kq.getString("time_out");
+				day = kq.getString("day");
+				boolean state = kq.getInt("state") ==0 ? false : true;
+				
+				ms.setMs_id(ms_id);
+				ms.setM_id(m_id);
+				ms.setOrder_cinema(order_cinema);
+				ms.setTime_in(remove_second(time_in));
+				ms.setTime_out(remove_second(time_out));
+				ms.setDay(day);
+				ms.setState(state);
 			}
 			
 			jdbc_new.closeConnection(connect);
@@ -58,6 +74,27 @@ public class msDAO {
 			PreparedStatement pst = connect.prepareStatement(sql);
 			pst.setInt(1, state ? 1 : 0);
 			pst.setString(2, id+"");
+			
+			int kq = pst.executeUpdate();
+			
+			jdbc_new.closeConnection(connect);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
+	public void updateAll_MS_state(boolean state) {
+			
+		try {
+			
+			connect = jdbc_new.getConnection();
+			String sql = "UPDATE movie_screening"
+					+ "\nSET state = ?";
+			
+			PreparedStatement pst = connect.prepareStatement(sql);
+			pst.setInt(1, state ? 1 : 0);
 			
 			int kq = pst.executeUpdate();
 			

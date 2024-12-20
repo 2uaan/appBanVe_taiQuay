@@ -5,16 +5,26 @@ public class near_screen {
 	private String name;
 	private boolean state;
 	private int ms_id;
+	private boolean is_selected;
 	
-	public near_screen(String name, boolean state, int ms_id) {
+	public near_screen(String name, boolean state, int ms_id, boolean is_selected) {
 		super();
 		this.name = name;
 		this.state = state;
 		this.ms_id = ms_id;
+		this.is_selected = is_selected;
 	}
 	
 	public near_screen() {
 		
+	}
+
+	public boolean isIs_selected() {
+		return is_selected;
+	}
+
+	public void setIs_selected(boolean is_selected) {
+		this.is_selected = is_selected;
 	}
 
 	public String getName() {

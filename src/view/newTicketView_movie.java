@@ -8,15 +8,32 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 import controller.*;
+import dao.*;
 import model_component.*;
+import model_data.*;
+
 
 public class newTicketView_movie extends JFrame{
 	
-	private JPanel frame, vertical, horizontal, screen, chairFrame, chair1, chair2;
+	//Interface variable
+	private JPanel frame, vertical, horizontal, screen, chairFrame, chair1, chair2, poster;
+	private JLabel img_poster;
 	private colors colo = new colors();
 	private fonT font = new fonT();
+	private margin ma = new margin();
 	private JButton done,backToMainPage, movie, drink_food, backToNewTicket;
+	private GridBagConstraints gbc = new GridBagConstraints();
+	
+	// Data variable
 	private String[] note = {"Near Screen (75K)", "Vip (95K)", "Couple (200K)", "Sold", "Selecting"};
+	private near_screen[] ns = new nsDAO().exportNS();
+	private vip[] v = new vDAO().exportV();
+	private couple[] c = new cDAO().exportC();
+	private ImageIcon[] slideImage = {new ImageIcon("image\\poster\\p1.png"),new ImageIcon("image\\poster\\p2.png"),new ImageIcon("image\\poster\\p3.png")};
+	private movie_screening ms_select = new msDAO().exportSelected_ms();
+	private nsDAO nsdao = new nsDAO();
+	private vDAO vdao = new vDAO();
+	private cDAO cdao = new cDAO();
 	
 	public static void main(String[] args) {
 		new newTicketView_movie().setVisible(true);
@@ -24,7 +41,7 @@ public class newTicketView_movie extends JFrame{
 	
 	public newTicketView_movie() {
 		setTitle("New Ticket: Movie");
-		setSize(1000,675);
+		setSize(1400,675);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
@@ -87,6 +104,18 @@ public class newTicketView_movie extends JFrame{
 		
 		
 //		Component in BigFrame :>>>>
+		
+		poster = new JPanel();
+		poster.setBounds(995,30,340,510);
+		
+		img_poster = new JLabel();
+		if (ms_select.getM_id() != 0) {
+			img_poster.setIcon(slideImage[ms_select.getM_id() % 10 -1]);
+		}
+		
+		poster.add(img_poster);
+		add(poster);
+		
 		screen = new JPanel();
 		screen.setBackground(colo.cineBlack);
 		screen.setBounds(375, 20, 305, 60);
@@ -98,16 +127,25 @@ public class newTicketView_movie extends JFrame{
 		screen.add(in_screen);
 		
 		chairFrame = new JPanel();
-		chairFrame.setBackground(colo.cineBrownOpa(100));
-		chairFrame.setBounds(120, 100, 815, 425);
+		chairFrame.setBackground(colo.cineBrownOpa(0));
+		chairFrame.setBounds(110, 120, 835, 425);
 		chairFrame.setLayout(null);
 		chair1 = new JPanel();
-		chair1.setBackground(colo.cineBrownOpa(150));
-		chair1.setBounds(5,5, 385,385);
+		chair1.setBackground(colo.cineBrownOpa(0));
+		chair1.setBounds(5,5, 395,395);
+		chair1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(colo.cineBrown), BorderFactory.createEmptyBorder(0,0,5,5)));
+		chair1.setLayout(new GridBagLayout());
 		
 		chair2 = new JPanel(); 
-		chair2.setBackground(colo.cineBrownOpa(150));
-		chair2.setBounds(425,5,385,385);
+		chair2.setBackground(colo.cineBrownOpa(0));
+		chair2.setBounds(435,5,395,395);
+		chair2.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(colo.cineBrown), BorderFactory.createEmptyBorder(0,0,5,5)));
+//		chair2.setBorder(BorderFactory.createLineBorder(colo.cineBrown));
+		chair2.setLayout(new GridBagLayout());
+		
+		add_ns_chair();
+		add_v_chair();
+		add_c_chair();
 		
 		chairFrame.add(chair1);
 		chairFrame.add(chair2);
@@ -118,7 +156,7 @@ public class newTicketView_movie extends JFrame{
 		vertical = new JPanel();
 		horizontal = new JPanel();
 		vertical.setBounds(0,0,70,640);
-		horizontal.setBounds(70,570,1000,70);
+		horizontal.setBounds(70,570,1400,70);
 		vertical.setLayout(null);
 		horizontal.setLayout(null);
 		vertical.setBackground(colo.cineBrownOpa(150));
@@ -281,7 +319,7 @@ public class newTicketView_movie extends JFrame{
 		
 //		Componen in Horizontal Bar		
 		done.setFont(new Font("Dialog",Font.BOLD, 15));
-		done.setBounds(820,15,80, 40);
+		done.setBounds(1220,15,80, 40);
 		done.setForeground(Color.white);
 		done.setBackground(colo.cineBrown);
 		done.setMnemonic(KeyEvent.VK_O);
@@ -338,8 +376,271 @@ public class newTicketView_movie extends JFrame{
 		
 	}
 	
+	public void add_ns_chair() {
+		for (int i = 0 ; i < ns.length; i++) {
+			String name = ns[i].getName();
+			int ms_id = ns[i].getMs_id();
+			JButton temp = new JButton(ns[i].getName());
+			temp.setBackground(new Color(0x757575));
+			temp.setMargin(new Insets(0, 0, 0, 0));
+			temp.setFont(font.tilt_neon(20).deriveFont(Font.BOLD));
+			
+			if(nsdao.getIs_selected_ns(name, ms_id)) {
+				temp.setBackground(Color.red);
+			}
+			if (ns[i].isState()) {
+				temp.setBackground(new Color(0x0006BF));
+				temp.setText("X");
+				temp.setEnabled(false);
+			}else {
+				temp.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if (temp.getBackground() == Color.red) {
+							temp.setBackground(new Color(0x757575));
+							nsdao.setIs_selected_ns(name, ms_id, false);
+						}
+						else {
+							temp.setBackground(Color.red);
+							nsdao.setIs_selected_ns(name, ms_id, true);
+						}
+					}
+				});
+			}
+			
+			if (ns[i].isState()) temp.setBackground(new Color(0x0006BF));
+			if (i%12 < 6) {
+				gbc.gridx = i%12;
+				gbc.gridy = i/12;
+				gbc.gridwidth = 1;
+				gbc.gridheight = 1;
+				gbc.weightx = 1;
+				gbc.weighty = 1;
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.insets = new Insets(5, 5, 0, 0);
+	
+				chair1.add(temp, gbc);
+				chair1.setVisible(false);
+				chair1.setVisible(true);
+			}else {
+				gbc.gridx = i%12;
+				gbc.gridy = i/12;
+				gbc.gridwidth = 1;
+				gbc.gridheight = 1;
+				gbc.weightx = 1;
+				gbc.weighty = 1;
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.insets = new Insets(5, 5, 0, 0);
+	
+				chair2.add(temp,gbc);
+				chair2.setVisible(false);
+				chair2.setVisible(true);
+			}
+		}
+	}
+	
+	public void add_v_chair() {
+		for (int i = 0 ; i < v.length; i++) {
+			JButton temp = new JButton(v[i].getName());
+			temp.setMargin(new Insets(0, 0, 0, 0));
+			temp.setFont(font.tilt_neon(20).deriveFont(Font.BOLD));
+			temp.setBackground(colo.cineYellow);
+			
+			String name = v[i].getName();
+			int ms_id = v[i].getMs_id();
+			if(vdao.getIs_selected_v(name, ms_id)) {
+				temp.setBackground(Color.red);
+			}
+			if (v[i].isState()) {
+				temp.setBackground(new Color(0x0006BF));
+				temp.setText("X");
+				temp.setEnabled(false);
+			}else {
+				temp.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if (temp.getBackground() == Color.red) {
+							temp.setBackground(colo.cineYellow);
+							vdao.setIs_selected_v(name, ms_id, false);
+						}
+						else {
+							temp.setBackground(Color.red);
+							vdao.setIs_selected_v(name, ms_id, true);
+						}
+					}
+				});
+			}
+			if (i%12 < 6) {
+				gbc.gridx = i%12;
+				gbc.gridy = 2 + i/12;
+				gbc.gridwidth = 1;
+				gbc.gridheight = 1;
+				gbc.weightx = 1;
+				gbc.weighty = 1;
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.insets = new Insets(5, 5, 0, 0);
+	
+				chair1.add(temp, gbc);
+				chair1.setVisible(false);
+				chair1.setVisible(true);
+			}else {
+//				temp.setBounds((i%12 - 6) * 65 +8  , (2+i/12)*65 + 5,60, 60);
+				gbc.gridx = i%12;
+				gbc.gridy = 2 + i/12;
+				gbc.gridwidth = 1;
+				gbc.gridheight = 1;
+				gbc.weightx = 1;
+				gbc.weighty = 1;
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.insets = new Insets(5, 5, 0, 0);
+				
+				chair2.add(temp,gbc);
+				chair2.setVisible(false);
+				chair2.setVisible(true);
+			}
+		}
+	}
+	
+	public void add_c_chair() {
+		for (int i = 0 ; i < c.length; i++) {
+			JButton temp = new JButton(c[i].getName());
+			temp.setMargin(new Insets(0, 0, 0, 0));
+			temp.setFont(font.tilt_neon(20).deriveFont(Font.BOLD));
+			temp.setBackground(new Color(0xFF8282));
+			
+			String name = c[i].getName();
+			int ms_id = c[i].getMs_id();
+			if(cdao.getIs_selected_c(name, ms_id)) {
+				temp.setBackground(Color.red);
+			}
+			if (c[i].isState()) {
+				temp.setBackground(new Color(0x0006BF));
+				temp.setText("X");
+				temp.setEnabled(false);
+			}else {
+				temp.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if (temp.getBackground() == Color.red) {
+							temp.setBackground(new Color(0xFF8282));
+							cdao.setIs_selected_c(name, ms_id, false);
+						}
+						else {
+							temp.setBackground(Color.red);
+							cdao.setIs_selected_c(name, ms_id, true);
+						}
+					}
+				});
+			}
+			
+			if (i%6 < 3) {
+				gbc.gridx = (i % 6 ) * 2;
+				gbc.gridy = 4 + i/6;
+				gbc.gridwidth = 2;
+				gbc.gridheight = 1;
+				gbc.weightx = 2;
+				gbc.weighty = 1;
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.insets = new Insets(5, 5, 0, 0);
+				
+				chair1.add(temp, gbc);
+				chair1.setVisible(false);
+				chair1.setVisible(true);
+			}else {
+//				temp.setBounds(((i % 6 ) * 2 + 1) * 60 + 5 , (4 + i/6)*60 + 5, 60, 60);
+				gbc.gridx = (i % 6 ) * 2;
+				gbc.gridy = 4 + i/6;
+				gbc.gridwidth = 2;
+				gbc.gridheight = 1;
+				gbc.weightx = 2;
+				gbc.weighty = 1;
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.insets = new Insets(5, 5, 0, 0);
+
+				chair2.add(temp, gbc);
+				chair2.setVisible(false);
+				chair2.setVisible(true);
+			}
+		}
+	}
+	
 	public void note_bar() {
-		int xloca = 15;
+		int xloca = 100;
 		
 		for (int i = 0; i<5; i++) {
 			JPanel tempFrame = new JPanel();

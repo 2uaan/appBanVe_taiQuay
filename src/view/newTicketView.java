@@ -53,6 +53,8 @@ public class newTicketView extends JFrame{
 		setIconImage(new ImageIcon("image\\logo.png").getImage());
 		frame.setBackground(colo.back);
 		
+		msdao.updateAll_MS_state(false);
+		
 		done = new JButton("✓ Done");
 		bigFrame = new JPanel();
 
@@ -80,52 +82,7 @@ public class newTicketView extends JFrame{
 		
 		show_movie_name();
 		show_movie_screening();
-		
-//		gbc.gridx = 0; 
-//		gbc.gridy = 0; 
-//		gbc.gridwidth = 1;
-//		gbc.gridheight = 1; 
-//		gbc.weightx = 1; 
-//		gbc.weighty = 1;
-//		gbc.fill = GridBagConstraints.BOTH;
-//		
-//		m1 = new JPanel();
-//		m1.setBackground(Color.red);
-//		smallFrame.add(m1, gbc);
-//		
-//		gbc.gridx = 0; 
-//		gbc.gridy = 1; 
-//		
-//		m2 = new JPanel();
-//		m2.setBackground(Color.yellow);
-//		smallFrame.add(m2, gbc);
-//		
-//		gbc.gridx = 0; 
-//		gbc.gridy = 2; 
-//		
-//		m3 = new JPanel();
-//		m3.setBackground(Color.black);
-//		smallFrame.add(m3, gbc);
-//		
-//		gbc.gridx = 1; 
-//		gbc.gridy = 0;
-//		gbc.weightx = 2;
-//		
-//		ms1 = new JPanel();
-//		ms1.setBackground(Color.blue);
-//		smallFrame.add(ms1, gbc);
-//		gbc.gridx = 1; 
-//		gbc.gridy = 1; 
-//		
-//		ms2 = new JPanel();
-//		ms2.setBackground(Color.white);
-//		smallFrame.add(ms2, gbc);
-//		gbc.gridx = 1; 
-//		gbc.gridy = 2; 
-//		
-//		ms3 = new JPanel();
-//		ms3.setBackground(Color.green);
-//		smallFrame.add(ms3, gbc);
+
 		
 		bigFrame.add(smallFrame);
 		
@@ -197,7 +154,6 @@ public class newTicketView extends JFrame{
 		movie.setBackground(colo.cineYellow);
 		movie.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		movie.setBorder(BorderFactory.createEtchedBorder());
-		movie.addActionListener(new changePageListener(this, "newTicket_movie", false));
 		movie.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseExited(MouseEvent e) {

@@ -5,27 +5,32 @@ import model_data.*;
 
 public class testData {
 	public static void main(String[] args) {
-		near_screen[] temp = new nsDAO().exportNS();
+//		near_screen[] temp = new nsDAO().exportNS();
 		
-//		String sql = "INSERT INTO ns \nVALUES";
+//		movie_screening ms_select = new msDAO().exportSelected_ms();
+		
+//		System.out.println(ms_select.getDay());
+		
+//		boolean check = new nsDAO().getState_ns("A2", 1001);
+//		if (check) System.out.println("Ghe da ban");
+//		else System.out.println("Ghe trong");
 //		
-//		for (int i =0; i<2; i++) {
-//			char ch;
-//			if (i==0) ch = 'A';
-//			else ch = 'B';
-//			for (int j = 1; j< 13; j++) {
-//				sql += "\n('"+(ch+""+j)+"',0,1001),";
-//			}
-//		}
+//		new nsDAO().setState_ns("A2", 1001);
 //		
-//		System.out.println(sql);
+//		check = new nsDAO().getState_ns("A2", 1001);
+//		if (check) System.out.println("Ghe da ban");
+//		else System.out.println("Ghe trong");
+		
+//		System.out.println("df");
+		for (int i = 0 ; i< 5; i ++) System.out.println(new foodDAO().increNum_selected(3001));;
+	
 		
 //		String str = "17:30:00";
 //		System.out.println(new msDAO().remove_second(str));
 		
-		for (int i = 0; i < temp.length; i++) {
-			System.out.println(temp[i].getName() + "-----" + i + "-----" + temp[i].isState());
-		}
+//		for (int i = 0; i < temp.length; i++) {
+//			System.out.println(temp[i].getD_name() + "-----" + i + "-----" + temp[i].getPrice());
+//		}
 		
 //		
 	}

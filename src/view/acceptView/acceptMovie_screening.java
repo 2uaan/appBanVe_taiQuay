@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import dao.msDAO;
 import model_component.*;
 import view.newTicketView;
+import view.newTicketView_movie;
 
 public class acceptMovie_screening extends JFrame{
 	
@@ -53,6 +55,17 @@ public class acceptMovie_screening extends JFrame{
 		ac.setMargin(new Insets(0, 0, 0, 0));
 		ac.setBackground(colo.cineBrown);
 		ac.setForeground(colo.cineYellow);
+		ac.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				newTicketView_movie ntm = new newTicketView_movie();
+				ntm.setVisible(true);
+				setVisible(false);
+				
+			}
+		});
 		
 		ca = new JButton("Cancel");
 		ca.setMargin(new Insets(0, 0, 0, 0));
@@ -63,7 +76,6 @@ public class acceptMovie_screening extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				newTicketView nt = new newTicketView();
-				new msDAO().updateMS_state(ms_id, false);
 				nt.setVisible(true);
 				setVisible(false);
 			}
@@ -86,16 +98,6 @@ public class acceptMovie_screening extends JFrame{
 			gbc.weightx = 1;
 			gbc.weighty = 1;
 			
-			if (i == 0) {
-				
-			}
-			
-			if (i == 1) {
-				gbc.gridwidth = 2;
-				gbc.weightx = 2;
-			}
-			
-			gbc.fill = GridBagConstraints.BOTH;
 			JTextArea temp = new JTextArea(item[i]);
 			temp.setEditable(false);
 			temp.setBackground(colo.back);
@@ -106,6 +108,14 @@ public class acceptMovie_screening extends JFrame{
 			temp.setBorder(ma.marginAll(20));
 			temp.setLineWrap(true);
 			temp.setWrapStyleWord(true);
+			
+			if (i == 1) {
+				gbc.gridwidth = 2;
+				gbc.weightx = 2;
+				temp.setBorder(BorderFactory.createCompoundBorder(ma.marginTB(25), ma.marginLR(20)));
+			}
+			
+			gbc.fill = GridBagConstraints.BOTH;
 			
 			if (i == 0) {
 				temp.setFont(font.tilt_neon(24));

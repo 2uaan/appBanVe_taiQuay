@@ -1,14 +1,19 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+
+import dao.*;
 import controller.*;
 import model_component.*;
+import model_data.*;
 
 public class newTicketView_food extends JFrame{
 	
@@ -17,7 +22,15 @@ public class newTicketView_food extends JFrame{
 	private JTabbedPane fnd;
 	private colors colo = new colors();
 	private fonT font = new fonT();
+	private margin ma = new margin();
 	private JButton done,backToMainPage, movie, drink_food;
+	private GridBagConstraints gbc;
+	
+	//Data variable
+	private food[] f = new foodDAO().exportFood();
+	private drink[] d = new drinkDAO().exportDrink();
+	private int[] f_nums = new int[f.length];
+	private int[] d_nums = new int[d.length];
 	
 	public static void main(String[] args) {
 		new newTicketView_food().setVisible(true);
@@ -44,11 +57,26 @@ public class newTicketView_food extends JFrame{
 		
 // 		Main Component
 		
-		drinkFrame = new JPanel();
-		drinkFrame.setBackground(colo.cineRedOpa(50));
+		
+		 gbc = new GridBagConstraints();
+         gbc.gridx = 0;
+         gbc.gridy = 0;
+         gbc.weightx = 1.0; // Chiều rộng chiếm toàn bộ
+         gbc.weighty = 0.0; // Không kéo giãn chiều cao
+         gbc.fill = GridBagConstraints.HORIZONTAL; // Đặt nút chiếm toàn bộ chiều rộng
+         gbc.insets = new Insets(5, 5, 5, 5); // Khoảng cách giữa các nút
+
+         drinkFrame = new JPanel();
+         drinkFrame.setBackground(colo.cineRedOpa(50));
+         drinkFrame.setLayout(new GridBagLayout());
+		
 		foodFrame = new  JPanel();
 		foodFrame.setBackground(colo.cineYellowOpa(150));
+		foodFrame.setLayout(new GridBagLayout());
 		choiceFrame = new JPanel();
+		choiceFrame.setLayout(new GridBagLayout());
+		choiceFrame.setBorder(ma.marginAll(5));
+		addFood_drink();
 		
 		drinkScroll = new JScrollPane(drinkFrame);
 		
@@ -283,6 +311,149 @@ public class newTicketView_food extends JFrame{
 		add(vertical);
 		add(horizontal);
 		
+		
+	}
+	
+	public void addFood_drink() {
+		
+		for (int i = 0; i < d.length; i++) { 
+			int dnum[] = {0};
+            JButton button = new JButton(d[i].getD_name() +": "+ d[i].getPrice());
+            ImageIcon originalIcon = null;
+            button.setBackground(new Color(0xED3B3B));
+            switch (d[i].getDrink_id()) {
+				case 2001:{
+					originalIcon = new ImageIcon("image\\foodIcon\\d1.png");
+					break;
+				}
+				case 2002:{
+					originalIcon = new ImageIcon("image\\foodIcon\\d2.png"); 
+					break;
+				}
+				case 2003:{
+					originalIcon = new ImageIcon("image\\foodIcon\\d3.png"); 
+					break;
+				}	
+				default:{				
+					originalIcon = new ImageIcon("image\\foodIcon\\d4.png"); // Đường
+					break;
+				}
+			}
+            
+
+            
+            Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(scaledImage)); 
+            button.setFont(font.tilt_neon(30));
+            button.setIconTextGap(50);
+
+            int panelHeight = 400;
+            int buttonHeight = panelHeight / 5;
+            button.setPreferredSize(new Dimension(0, buttonHeight));
+            drink drink = d[i];
+            button.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JPanel tempFrame = new JPanel();
+					JLabel num = new JLabel();
+					if (dnum[0] == 0) {
+						int panelHeight = 420;
+			            int buttonHeight = panelHeight / 4;
+						tempFrame.setPreferredSize(new Dimension(0 , buttonHeight));
+						tempFrame.setBackground(colo.cineBlack);
+						tempFrame.setLayout(null);
+						tempFrame.setBackground(drinkFrame.getBackground());
+						tempFrame.setBorder(BorderFactory.createLineBorder(button.getBackground(), 5));
+						
+				         JLabel icon = new JLabel();
+				         icon.setIcon(new ImageIcon(scaledImage.getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+				         icon.setBounds(40,10,80,80);
+				         
+				         tempFrame.add(icon);
+				         
+						//Component in one choice
+						JButton incre, decre;
+						num = new JLabel();
+						num.setText(dnum[0] +"");
+						incre = new JButton("+");
+						
+						decre = new JButton("-");
+						
+						JPanel inde_cre = new JPanel();
+						inde_cre.setBounds(200,30, 140, 50);
+//						inde_cre.setPreferredSize(new Dimension(0, buttonHeight - 20));
+						inde_cre.setLayout(new GridLayout(1,3));
+						inde_cre.add(incre);
+						inde_cre.add(num);
+						inde_cre.add(decre);
+
+						
+						tempFrame.add(inde_cre);
+						choiceFrame.add(tempFrame, gbc);
+						gbc.gridy++;
+					}
+					System.out.println(dnum[0]);
+					num.setText(++dnum[0]+"");
+//					num.setVisible(false);
+//					num.setVisible(true);
+					tempFrame.setVisible(false);
+					tempFrame.setVisible(true);
+					
+					choiceFrame.setVisible(false);
+					choiceFrame.setVisible(true);
+				}
+			});
+           
+            drinkFrame.add(button, gbc);
+            gbc.gridy++; 
+        }
+		
+		gbc.gridy = 0;
+		
+		for (int i = 0; i < f.length; i++) { // Ví dụ thêm 10 nút
+            JButton button = new JButton(f[i].getF_name() +": "+ f[i].getPrice());
+            ImageIcon originalIcon = null;
+            button.setBackground(new Color(0xBFA66F));
+            switch (f[i].getFood_id()) {
+				case 3001:{
+					originalIcon = new ImageIcon("image\\foodIcon\\f1.png");
+					break;
+				}
+				case 3002:{
+					originalIcon = new ImageIcon("image\\foodIcon\\f2.png"); 
+					break;
+				}	
+				default:{				
+					originalIcon = new ImageIcon("image\\foodIcon\\f3.png"); // Đường
+					break;
+				}
+			}
+            
+
+            // Thay đổi kích thước hình ảnh
+            Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(scaledImage)); 
+            button.setFont(font.tilt_neon(30));
+            button.setIconTextGap(50);
+
+            // Tính chiều cao cho nút
+            int panelHeight = 400;
+            // Chiều cao giả định ban đầu của JPanel
+            int buttonHeight = panelHeight / 5; // Mỗi nút có chiều cao bằng 1/5 chiều cao của JPanel
+
+            // Thiết lập kích thước cho nút
+            button.setPreferredSize(new Dimension(0, buttonHeight));
+
+            // Thêm nút vào panel
+            foodFrame.add(button, gbc);
+            gbc.gridy++; // Tăng vị trí hàng
+        }
+		gbc.gridy = 0;
+		foodFrame.setVisible(false);
+		drinkFrame.setVisible(false);
+		foodFrame.setVisible(true);
+		drinkFrame.setVisible(true);
 		
 	}
 	

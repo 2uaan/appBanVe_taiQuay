@@ -5,13 +5,93 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import database.jdbc_new;
-import model_data.near_screen;
 import model_data.*;
 
 public class nsDAO {
 	
 	private Connection connect = null;
 	private msDAO msdao = new msDAO();
+	
+	public boolean getState_ns(String name, int ms_id) {
+		boolean check = false;
+		
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "SELECT state FROM ns"
+					+ "\nWHERE m_name = '"+name+"' AND ms_id = "+ms_id+";";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while (result.next()) {
+				int temp = result.getInt("state");
+				check = temp == 1 ? true : false;
+			}
+			
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return check;
+	}
+	
+	public void setState_ns(String name, int ms_id) {
+			
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "UPDATE ns"
+					+ "\nSET state = 1"
+					+ "\nWHERE m_name = '"+name+"' AND ms_id = "+ms_id+";";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			int kq = pst.executeUpdate();
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
+	public boolean getIs_selected_ns(String name, int ms_id) {	
+		boolean check = false;
+				
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "SELECT is_selected FROM ns"
+					+ "\nWHERE m_name = '"+name+"' AND ms_id = "+ms_id+";";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while (result.next()) {
+				int temp = result.getInt("is_selected");
+				check = temp == 1 ? true : false;
+			}
+			
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return check;
+		
+	}
+	
+	public void setIs_selected_ns(String name, int ms_id, boolean yn) {
+		
+		int temp = yn ? 1 : 0;
+		
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "UPDATE ns"
+					+ "\nSET is_selected = " + temp
+					+ "\nWHERE m_name = '"+name+"' AND ms_id = "+ms_id+";";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			int kq = pst.executeUpdate();
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
 	
 	public near_screen[] exportNS() {
 		
@@ -27,7 +107,7 @@ public class nsDAO {
 			ResultSet result = pst.executeQuery();
 			
 			while (result.next()) {
-				String temp = result.getString("name");
+				String temp = result.getString("m_name");
 				if (result.getInt("ms_id") == id) num++;
 			}
 			
@@ -36,17 +116,19 @@ public class nsDAO {
 			int i = 0;
 			
 			while (result.next()) {
-				String temp = result.getString("name");
+				String temp = result.getString("m_name");
 					if (result.getInt("ms_id") == id) {
 					ns[i] = new near_screen();
 					
-					String name = result.getString("name");
+					String name = result.getString("m_name");
 					Boolean state = result.getInt("state") == 0 ? false : true;
 					int ms_id = result.getInt("ms_id");
+					Boolean is_selected = result.getInt("is_selected") == 0 ? false : true;
 					
 					ns[i].setName(name);
 					ns[i].setState(state);
 					ns[i].setMs_id(ms_id);
+					ns[i].setIs_selected(is_selected);
 					
 					i++;
 				}
@@ -76,7 +158,7 @@ public class nsDAO {
 			String sql = "INSERT INTO couple \nVALUES";
 			
 			for (int j = 1; j<13; j++) {
-				sql+= "\n(?,0,100"+num+"),";
+				sql+= "\n(?,0,100"+num+",0),";
 			}
 			
 			sql = remove_second(sql) + ";";
