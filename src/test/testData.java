@@ -5,9 +5,7 @@ import model_data.*;
 
 public class testData {
 	public static void main(String[] args) {
-		movie_screening[] ms = new msDAO().exportMovie_screening();
-		
-		String[][] mn = new mDAO().exportM_name();
+		near_screen[] temp = new nsDAO().exportNS();
 		
 //		String sql = "INSERT INTO ns \nVALUES";
 //		
@@ -22,19 +20,13 @@ public class testData {
 //		
 //		System.out.println(sql);
 		
-		for (int i = 1; i<6; i++) {
-			new nsDAO().addNS(i);
-		}
-		
 //		String str = "17:30:00";
 //		System.out.println(new msDAO().remove_second(str));
 		
-//		for (int i = 0; i < 3; i++) {
-//			System.out.println(mn[0][i]);
-//		}
-//		for (int i = 0; i < 3; i++) {
-//			System.out.println(mn[1][i]);
-//		}
+		for (int i = 0; i < temp.length; i++) {
+			System.out.println(temp[i].getName() + "-----" + i + "-----" + temp[i].isState());
+		}
+		
 //		
 	}
 	

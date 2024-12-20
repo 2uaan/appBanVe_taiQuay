@@ -8,8 +8,10 @@ public class movie_screening {
 	private String time_in;
 	private String time_out;
 	private String day;
+	private boolean state;
 	
-	public movie_screening(int ms_id, int m_id, int order_cinema, String time_in, String time_out, String day) {
+	
+	public movie_screening(int ms_id, int m_id, int order_cinema, String time_in, String time_out, String day, boolean state) {
 		super();
 		this.ms_id = ms_id;
 		this.m_id = m_id;
@@ -17,8 +19,17 @@ public class movie_screening {
 		this.time_in = time_in;
 		this.time_out = time_out;
 		this.day = day;
+		this.state = state;
 	}
 	
+	public boolean isState() {
+		return state;
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
+	}
+
 	public movie_screening(){
 		
 	}

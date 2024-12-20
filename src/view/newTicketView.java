@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,6 +14,7 @@ import dao.*;
 import controller.*;
 import model_component.*;
 import model_data.*;
+import view.acceptView.acceptMovie_screening;
 
 public class newTicketView extends JFrame{
 	
@@ -21,16 +24,16 @@ public class newTicketView extends JFrame{
 	private fonT font = new fonT();
 	private JButton done,backToMainPage, movie, drink_food;
 	private JPanel bigFrame, smallFrame;
-	private JPanel m1, m2, m3, ms1, ms2, ms3;
-	private Border etched, margin0, margin5_bottom, combi, margin20_all ;
+	private Border etched, margin0, margin5_bottom, combi ;
 	private GridBagLayout gb;
 	private GridBagConstraints gbc;
 	
 	// Data variable
+	private msDAO msdao = new msDAO();
 	private movie[] m = new mDAO().exportMovie();
 	private String[][] movie_name = new mDAO().exportM_name();
 	private margin margin = new margin();
-	private movie_screening[] ms = new msDAO().exportMovie_screening();
+	private movie_screening[] ms = msdao.exportMovie_screening();
 	
 	
 	public static void main(String[] args) {
@@ -58,7 +61,7 @@ public class newTicketView extends JFrame{
 		etched = BorderFactory.createEtchedBorder();
 		margin0 = margin.marginAll(0);
 		margin5_bottom = margin.marginB(5);
-		margin20_all = margin.marginAll(20);
+		margin.marginAll(20);
 		combi = BorderFactory.createCompoundBorder(etched, margin5_bottom);
 		
 		
@@ -382,7 +385,9 @@ public class newTicketView extends JFrame{
 	}
 
 	public void show_movie_screening() {
-		for (int y = 0; y < m.length; y++) {
+		int y;
+		for (y = 0; y < m.length; y++) {
+			String m_name = m[y].getM_name();
 			gbc.gridx = 1;
 			gbc.gridy = y;
 			
@@ -408,11 +413,24 @@ public class newTicketView extends JFrame{
 			
 			for (int i = 0; i < ms.length; i++ ) {
 				if (ms[i].getM_id() == m[y].getM_id()) {
+					String ms_time = ms[i].getTime_in() + " - " + ms[i].getTime_out();
+					int ms_id = ms[i].getMs_id();
 					JButton time = new JButton(ms[i].getTime_in() + " - " + ms[i].getTime_out());
 					time.setFont(font.tilt_neon(15));
 					time.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					time.setBackground(colo.cineBlack);
 					time.setForeground(colo.cineYellow);
+					time.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							acceptMovie_screening acs = new acceptMovie_screening(m_name, ms_time, ms_id);
+							msdao.updateMS_state(ms_id, true);
+							acs.setVisible(true);
+							setVisible(false);
+						}
+					});
+					
 					
 					time.setMargin(new Insets(0, 0, 0, 0));
 					

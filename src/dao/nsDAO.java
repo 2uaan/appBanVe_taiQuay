@@ -2,13 +2,66 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import database.jdbc_new;
+import model_data.near_screen;
+import model_data.*;
 
 public class nsDAO {
 	
-	Connection connect = null;
+	private Connection connect = null;
+	private msDAO msdao = new msDAO();
+	
+	public near_screen[] exportNS() {
+		
+		near_screen[] ns = null;
+		int id = msdao.exportSelected_ms().getMs_id();
+		int num = 0;
+		
+		try {
 			
+			connect = jdbc_new.getConnection();
+			String sql = "Select * from ns";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while (result.next()) {
+				String temp = result.getString("name");
+				if (result.getInt("ms_id") == id) num++;
+			}
+			
+			result = pst.executeQuery();
+			ns = new near_screen[num];
+			int i = 0;
+			
+			while (result.next()) {
+				String temp = result.getString("name");
+					if (result.getInt("ms_id") == id) {
+					ns[i] = new near_screen();
+					
+					String name = result.getString("name");
+					Boolean state = result.getInt("state") == 0 ? false : true;
+					int ms_id = result.getInt("ms_id");
+					
+					ns[i].setName(name);
+					ns[i].setState(state);
+					ns[i].setMs_id(ms_id);
+					
+					i++;
+				}
+			}
+			
+			jdbc_new.closeConnection(connect);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return ns;
+	}
+	
 	public String remove_second(String time) {
 		String temp = "";
 		for (int i = 0; i < time.length()-1; i++) temp += time.charAt(i);
@@ -37,8 +90,6 @@ public class nsDAO {
 					pst.setString(i*6 + j, ch+""+j);
 				}
 			}
-			
-			System.out.println(sql);
 			
 			int kq = pst.executeUpdate();
 			
