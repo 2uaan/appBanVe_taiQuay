@@ -12,6 +12,38 @@ public class nsDAO {
 	private Connection connect = null;
 	private msDAO msdao = new msDAO();
 	
+	public void updateIs_selected() {
+			
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "UPDATE ns"
+					+ "\nSET is_selected = 0;";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			int kq = pst.executeUpdate();
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
+	public void selectedToState() {
+		try {
+			connect = jdbc_new.getConnection();
+			
+			String sql = "UPDATE ns"
+					+ "\nSET state = 1"
+					+ "\nWHERE is_selected = 1";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			int kq = pst.executeUpdate();
+			
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
 	public boolean getState_ns(String name, int ms_id) {
 		boolean check = false;
 		
@@ -183,5 +215,85 @@ public class nsDAO {
 		
 	}
 			
+	public boolean checkSelected() {
+		boolean check = false;
+		
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "SELECT * FROM ns";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while(result.next()) {
+				int temp = result.getInt("is_selected");
+				if ( temp != 0) {
+					check = true;
+					break;
+				}
+			}
+			
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return check;
+	}
+	
+	public near_screen[] get_nsSelected() {
+		near_screen[] ns = null;
+		int id = new msDAO().exportSelected_ms().getMs_id();
+		int num = 0;
+		
+		try {
+			
+			connect = jdbc_new.getConnection();
+			String sql = "Select * from ns";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while (result.next()) {
+				int temp = result.getInt("is_selected");
+				if (result.getInt("ms_id") == id) {
+					if (temp != 0) num++;
+				}
+				else continue;
+			}
+			
+			result = pst.executeQuery();
+			ns = new near_screen[num];
+			int i = 0;
+			
+			while (result.next()) {
+				int temp = result.getInt("is_selected");
+				if (result.getInt("ms_id") == id) {
+					if (temp != 0) {
+						ns[i] = new near_screen();
+						
+						String name = result.getString("m_name");
+						Boolean state = result.getInt("state") == 0 ? false : true;
+						int ms_id = result.getInt("ms_id");
+						Boolean is_selected = result.getInt("is_selected") == 0 ? false : true;
+						
+						ns[i].setName(name);
+						ns[i].setState(state);
+						ns[i].setMs_id(ms_id);
+						ns[i].setIs_selected(is_selected);
+						
+						i++;
+					}
+				}
+			}
+			
+			jdbc_new.closeConnection(connect);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return ns;
+	}
+	
 	
 }

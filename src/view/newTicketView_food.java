@@ -8,7 +8,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.Border;
+import javax.swing.text.StyledEditorKit.AlignmentAction;
 
 import dao.*;
 import controller.*;
@@ -265,6 +267,19 @@ public class newTicketView_food extends JFrame{
 		done.setMnemonic(KeyEvent.VK_O);
 		done.setBorder(BorderFactory.createCompoundBorder(etched, margin2));
 		done.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		done.addActionListener(new ActionListener() {
+					
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (checkTicket_infor()) {
+					ticketInforView ti = new ticketInforView();
+					ti.setVisible(true);
+					setVisible(false);
+				}else {
+					JOptionPane.showMessageDialog(null, "Ticket is empty!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		done.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -314,94 +329,239 @@ public class newTicketView_food extends JFrame{
 		
 	}
 	
+	public boolean checkTicket_infor() {
+		boolean ns, v, c, food, drink, result = true;
+		
+		ns = new nsDAO().checkSelected();
+		v = new vDAO().checkSelected();
+		c = new cDAO().checkSelected();
+		food = new foodDAO().checkSelected();
+		drink = new drinkDAO().checkSelected();
+		
+		if (!ns && !v && !c && !food & !drink) result = false;
+		
+		return result;
+	}
+	
+	private void incre_selec(int id, JLabel num) {
+		int temp = Integer.parseInt(num.getText());
+		temp++;
+		num.setText(temp+"");
+		if (id/1000 == 2) new drinkDAO().increNum_selected(id);
+		if (id/1000 == 3) new foodDAO().increNum_selected(id);
+	}
+	
+	private void decre_selec(int id, JLabel num) {
+		int temp = Integer.parseInt(num.getText());
+		temp--;
+		num.setText(temp+"");
+		if (id/1000 == 2) new drinkDAO().decreNum_selected(id);
+		if (id/1000 == 3) new foodDAO().decreNum_selected(id);
+	}
+	
 	public void addFood_drink() {
 		
 		for (int i = 0; i < d.length; i++) { 
-			int dnum[] = {0};
-            JButton button = new JButton(d[i].getD_name() +": "+ d[i].getPrice());
+//			int dnum[] = {0};
+            JButton button = new JButton(d[i].getD_name() +": "+ d[i].getPriceK());
             ImageIcon originalIcon = null;
             button.setBackground(new Color(0xED3B3B));
-            switch (d[i].getDrink_id()) {
-				case 2001:{
-					originalIcon = new ImageIcon("image\\foodIcon\\d1.png");
-					break;
-				}
-				case 2002:{
-					originalIcon = new ImageIcon("image\\foodIcon\\d2.png"); 
-					break;
-				}
-				case 2003:{
-					originalIcon = new ImageIcon("image\\foodIcon\\d3.png"); 
-					break;
-				}	
-				default:{				
-					originalIcon = new ImageIcon("image\\foodIcon\\d4.png"); // Đường
-					break;
-				}
-			}
+            originalIcon = new ImageIcon("image\\foodIcon\\d"+(i+1)+".png");
             
 
             
             Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(scaledImage)); 
-            button.setFont(font.tilt_neon(30));
+            button.setFont(font.tilt_neon(27));
             button.setIconTextGap(50);
 
             int panelHeight = 400;
             int buttonHeight = panelHeight / 5;
             button.setPreferredSize(new Dimension(0, buttonHeight));
             drink drink = d[i];
+            JPanel tempFrame = new JPanel();
+            JLabel num = new JLabel("",JLabel.CENTER);
+            
+            if (new drinkDAO().getNum_selected(drink.getDrink_id()) != 0) {
+				panelHeight = 420;
+	            buttonHeight = panelHeight / 4;
+				tempFrame.setPreferredSize(new Dimension(0 , buttonHeight));
+				tempFrame.setBackground(colo.cineBlack);
+				tempFrame.setLayout(null);
+				tempFrame.setBackground(drinkFrame.getBackground());
+				tempFrame.setBorder(BorderFactory.createLineBorder(button.getBackground(), 5));
+				
+				 JLabel icon = new JLabel();
+		         icon.setIcon(new ImageIcon(scaledImage.getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+		         icon.setBounds(40,10,80,80);
+		         tempFrame.add(icon);
+				//Component in one choice
+				JButton incre, decre, close;
+				int n = new drinkDAO().getNum_selected(drink.getDrink_id());
+				num.setText(n+"");
+				num.setFont(font.tilt_neon(25));
+				num.setBackground(Color.white);
+				num.setBounds(40,0, 60, 40);
+				
+				incre = new JButton("+");
+				incre.setMargin(new Insets(0, 0, 0, 0));
+				incre.setBounds(0,0, 40, 40);
+				incre.setFont(font.tilt_neon(35));
+				incre.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if (drink.getAmount() < (Integer.parseInt(num.getText())+1)) {
+							JOptionPane.showMessageDialog(null, "Out of stock!!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+						}else incre_selec(drink.getDrink_id(), num);
+					}
+				});
+				
+				decre = new JButton("-");
+				decre.setMargin(new Insets(0, 0, 0, 0));
+				decre.setBounds(100,0, 40, 40);
+				decre.setFont(font.tilt_neon(35));
+				decre.addActionListener(new ActionListener() {
+									
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if (Integer.parseInt(num.getText()) > 1) {
+							decre_selec(drink.getDrink_id(), num);
+						}
+					}
+				});
+				
+				close = new JButton("X");
+				close.setFont(font.tilt_neon(15));
+				close.setBackground(Color.red);
+				close.setForeground(Color.white);
+				close.setMargin(new Insets(0, 0, 0, 0));
+				close.setBounds(334, 3, 40, 20);
+				close.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tempFrame.setVisible(false);
+						new drinkDAO().setNum_selected(drink.getDrink_id());
+					}
+				});
+				
+				JPanel inde_cre = new JPanel();
+				inde_cre.setBounds(200,35, 140, 40);
+				inde_cre.setLayout(null);
+//				inde_cre.setBackground(drinkFrame.getBackground());
+				
+				inde_cre.add(num);
+				inde_cre.add(incre);
+				inde_cre.add(decre);
+
+				tempFrame.add(close);
+				tempFrame.add(inde_cre);
+				choiceFrame.add(tempFrame, gbc);
+				gbc.gridy++;
+			}
+            
+            
+            
             button.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					JPanel tempFrame = new JPanel();
-					JLabel num = new JLabel();
-					if (dnum[0] == 0) {
-						int panelHeight = 420;
-			            int buttonHeight = panelHeight / 4;
-						tempFrame.setPreferredSize(new Dimension(0 , buttonHeight));
-						tempFrame.setBackground(colo.cineBlack);
-						tempFrame.setLayout(null);
-						tempFrame.setBackground(drinkFrame.getBackground());
-						tempFrame.setBorder(BorderFactory.createLineBorder(button.getBackground(), 5));
-						
-				         JLabel icon = new JLabel();
-				         icon.setIcon(new ImageIcon(scaledImage.getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
-				         icon.setBounds(40,10,80,80);
-				         
-				         tempFrame.add(icon);
-				         
-						//Component in one choice
-						JButton incre, decre;
-						num = new JLabel();
-						num.setText(dnum[0] +"");
-						incre = new JButton("+");
-						
-						decre = new JButton("-");
-						
-						JPanel inde_cre = new JPanel();
-						inde_cre.setBounds(200,30, 140, 50);
-//						inde_cre.setPreferredSize(new Dimension(0, buttonHeight - 20));
-						inde_cre.setLayout(new GridLayout(1,3));
-						inde_cre.add(incre);
-						inde_cre.add(num);
-						inde_cre.add(decre);
+					if (drink.getAmount() == 0) {
+						JOptionPane.showMessageDialog(null, "Out of stock!!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+					}else {
+						if (new drinkDAO().getNum_selected(drink.getDrink_id()) == 0) {
+							int panelHeight = 420;
+				            int buttonHeight = panelHeight / 4;
+							tempFrame.setPreferredSize(new Dimension(0 , buttonHeight));
+							tempFrame.setBackground(colo.cineBlack);
+							tempFrame.setLayout(null);
+							tempFrame.setBackground(drinkFrame.getBackground());
+							tempFrame.setBorder(BorderFactory.createLineBorder(button.getBackground(), 5));
+							
+					         JLabel icon = new JLabel();
+					         icon.setIcon(new ImageIcon(scaledImage.getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+					         icon.setBounds(40,10,80,80);
+					         tempFrame.add(icon);
+							//Component in one choice
+							JButton incre, decre, close;
+							int n = new drinkDAO().getNum_selected(drink.getDrink_id());
+							num.setText(n+"");
+							num.setFont(font.tilt_neon(25));
+							num.setBackground(Color.white);
+							num.setBounds(40,0, 60, 40);
+							
+							incre = new JButton("+");
+							incre.setMargin(new Insets(0, 0, 0, 0));
+							incre.setBounds(0,0, 40, 40);
+							incre.setFont(font.tilt_neon(35));
+							incre.addActionListener(new ActionListener() {
+								
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									if (drink.getAmount() < (Integer.parseInt(num.getText())+1)) {
+										JOptionPane.showMessageDialog(null, "Out of stock!!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+									}else incre_selec(drink.getDrink_id(), num);
+								}
+							});
+							
+							decre = new JButton("-");
+							decre.setMargin(new Insets(0, 0, 0, 0));
+							decre.setBounds(100,0, 40, 40);
+							decre.setFont(font.tilt_neon(35));
+							decre.addActionListener(new ActionListener() {
+												
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									if (Integer.parseInt(num.getText()) > 1) {
+										decre_selec(drink.getDrink_id(), num);
+									}
+								}
+							});
+							
+							close = new JButton("X");
+							close.setFont(font.tilt_neon(15));
+							close.setBackground(Color.red);
+							close.setForeground(Color.white);
+							close.setMargin(new Insets(0, 0, 0, 0));
+							close.setBounds(334, 3, 40, 20);
+							close.addActionListener(new ActionListener() {
+								
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									tempFrame.setVisible(false);
+									new drinkDAO().setNum_selected(drink.getDrink_id());
+								}
+							});
+							
+							JPanel inde_cre = new JPanel();
+							inde_cre.setBounds(200,35, 140, 40);
+							inde_cre.setLayout(null);
+//							inde_cre.setBackground(drinkFrame.getBackground());
+							
+							inde_cre.add(num);
+							inde_cre.add(incre);
+							inde_cre.add(decre);
 
+							tempFrame.add(close);
+							tempFrame.add(inde_cre);
+							choiceFrame.add(tempFrame, gbc);
+							gbc.gridy++;
+						}
 						
-						tempFrame.add(inde_cre);
-						choiceFrame.add(tempFrame, gbc);
-						gbc.gridy++;
+						
+						if (drink.getAmount() < (Integer.parseInt(num.getText())+1)) {
+							JOptionPane.showMessageDialog(null, "Out of stock!!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+						}else incre_selec(drink.getDrink_id(), num);
+						num.setVisible(false);
+						num.setVisible(true);
+						
+						tempFrame.setVisible(false);
+						tempFrame.setVisible(true);
+						
+						choiceFrame.setVisible(false);
+						choiceFrame.setVisible(true);
 					}
-					System.out.println(dnum[0]);
-					num.setText(++dnum[0]+"");
-//					num.setVisible(false);
-//					num.setVisible(true);
-					tempFrame.setVisible(false);
-					tempFrame.setVisible(true);
-					
-					choiceFrame.setVisible(false);
-					choiceFrame.setVisible(true);
 				}
 			});
            
@@ -409,47 +569,215 @@ public class newTicketView_food extends JFrame{
             gbc.gridy++; 
         }
 		
-		gbc.gridy = 0;
+
 		
 		for (int i = 0; i < f.length; i++) { // Ví dụ thêm 10 nút
-            JButton button = new JButton(f[i].getF_name() +": "+ f[i].getPrice());
+            JButton button = new JButton(f[i].getF_name() +": "+ f[i].getPriceK());
             ImageIcon originalIcon = null;
             button.setBackground(new Color(0xBFA66F));
-            switch (f[i].getFood_id()) {
-				case 3001:{
-					originalIcon = new ImageIcon("image\\foodIcon\\f1.png");
-					break;
-				}
-				case 3002:{
-					originalIcon = new ImageIcon("image\\foodIcon\\f2.png"); 
-					break;
-				}	
-				default:{				
-					originalIcon = new ImageIcon("image\\foodIcon\\f3.png"); // Đường
-					break;
-				}
-			}
+            originalIcon = new ImageIcon("image\\foodIcon\\f"+(i+1)+".png");
             
-
-            // Thay đổi kích thước hình ảnh
             Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(scaledImage)); 
             button.setFont(font.tilt_neon(30));
             button.setIconTextGap(50);
 
-            // Tính chiều cao cho nút
             int panelHeight = 400;
-            // Chiều cao giả định ban đầu của JPanel
-            int buttonHeight = panelHeight / 5; // Mỗi nút có chiều cao bằng 1/5 chiều cao của JPanel
-
-            // Thiết lập kích thước cho nút
+            int buttonHeight = panelHeight / 5; 
             button.setPreferredSize(new Dimension(0, buttonHeight));
 
+            food food = f[i];
+            JPanel tempFrame = new JPanel();
+            JLabel num = new JLabel("",JLabel.CENTER);
+            
+            if (new foodDAO().getNum_selected(food.getFood_id()) != 0) {
+				panelHeight = 420;
+	            buttonHeight = panelHeight / 4;
+				tempFrame.setPreferredSize(new Dimension(0 , buttonHeight));
+				tempFrame.setBackground(colo.cineBlack);
+				tempFrame.setLayout(null);
+				tempFrame.setBackground(foodFrame.getBackground());
+				tempFrame.setBorder(BorderFactory.createLineBorder(button.getBackground(), 5));
+				
+				 JLabel icon = new JLabel();
+		         icon.setIcon(new ImageIcon(scaledImage.getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+		         icon.setBounds(40,10,80,80);
+		         tempFrame.add(icon);
+				//Component in one choice
+				JButton incre, decre, close;
+				int n = new foodDAO().getNum_selected(food.getFood_id());
+				num.setText(n+"");
+				num.setFont(font.tilt_neon(25));
+				num.setBackground(Color.white);
+				num.setBounds(40,0, 60, 40);
+				
+				incre = new JButton("+");
+				incre.setMargin(new Insets(0, 0, 0, 0));
+				incre.setBounds(0,0, 40, 40);
+				incre.setFont(font.tilt_neon(35));
+				incre.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if (food.getAmount() < (Integer.parseInt(num.getText())+1)) {
+							JOptionPane.showMessageDialog(null, "Out of stock!!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+						}else incre_selec(food.getFood_id(), num);
+					}
+				});
+				
+				decre = new JButton("-");
+				decre.setMargin(new Insets(0, 0, 0, 0));
+				decre.setBounds(100,0, 40, 40);
+				decre.setFont(font.tilt_neon(35));
+				decre.addActionListener(new ActionListener() {
+									
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if (Integer.parseInt(num.getText()) > 1) {
+							decre_selec(food.getFood_id(), num);
+						}
+					}
+				});
+				
+				close = new JButton("X");
+				close.setFont(font.tilt_neon(15));
+				close.setBackground(Color.red);
+				close.setForeground(Color.white);
+				close.setMargin(new Insets(0, 0, 0, 0));
+				close.setBounds(334, 3, 40, 20);
+				close.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tempFrame.setVisible(false);
+						new foodDAO().setNum_selected(food.getFood_id());
+					}
+				});
+				
+				JPanel inde_cre = new JPanel();
+				inde_cre.setBounds(200,35, 140, 40);
+				inde_cre.setLayout(null);
+//				inde_cre.setBackground(foodFrame.getBackground());
+				
+				inde_cre.add(num);
+				inde_cre.add(incre);
+				inde_cre.add(decre);
+
+				tempFrame.add(close);
+				tempFrame.add(inde_cre);
+				choiceFrame.add(tempFrame, gbc);
+				gbc.gridy++;
+			}
+            
+            
+            
+            button.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (food.getAmount() == 0) {
+						JOptionPane.showMessageDialog(null, "Out of stock!!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+					}else {
+						if (new foodDAO().getNum_selected(food.getFood_id()) == 0) {
+							int panelHeight = 420;
+				            int buttonHeight = panelHeight / 4;
+							tempFrame.setPreferredSize(new Dimension(0 , buttonHeight));
+							tempFrame.setBackground(colo.cineBlack);
+							tempFrame.setLayout(null);
+							tempFrame.setBackground(foodFrame.getBackground());
+							tempFrame.setBorder(BorderFactory.createLineBorder(button.getBackground(), 5));
+							
+					         JLabel icon = new JLabel();
+					         icon.setIcon(new ImageIcon(scaledImage.getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+					         icon.setBounds(40,10,80,80);
+					         tempFrame.add(icon);
+							//Component in one choice
+							JButton incre, decre, close;
+							int n = new foodDAO().getNum_selected(food.getFood_id());
+							num.setText(n+"");
+							num.setFont(font.tilt_neon(25));
+							num.setBackground(Color.white);
+							num.setBounds(40,0, 60, 40);
+							
+							incre = new JButton("+");
+							incre.setMargin(new Insets(0, 0, 0, 0));
+							incre.setBounds(0,0, 40, 40);
+							incre.setFont(font.tilt_neon(35));
+							incre.addActionListener(new ActionListener() {
+								
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									if (food.getAmount() < (Integer.parseInt(num.getText())+1)) {
+										JOptionPane.showMessageDialog(null, "Out of stock!!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+									}else incre_selec(food.getFood_id(), num);
+								}
+							});
+							
+							decre = new JButton("-");
+							decre.setMargin(new Insets(0, 0, 0, 0));
+							decre.setBounds(100,0, 40, 40);
+							decre.setFont(font.tilt_neon(35));
+							decre.addActionListener(new ActionListener() {
+												
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									if (Integer.parseInt(num.getText()) > 1) {
+										decre_selec(food.getFood_id(), num);
+									}
+								}
+							});
+							
+							close = new JButton("X");
+							close.setFont(font.tilt_neon(15));
+							close.setBackground(Color.red);
+							close.setForeground(Color.white);
+							close.setMargin(new Insets(0, 0, 0, 0));
+							close.setBounds(334, 3, 40, 20);
+							close.addActionListener(new ActionListener() {
+								
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									tempFrame.setVisible(false);
+									new foodDAO().setNum_selected(food.getFood_id());
+								}
+							});
+							
+							JPanel inde_cre = new JPanel();
+							inde_cre.setBounds(200,35, 140, 40);
+							inde_cre.setLayout(null);
+//							inde_cre.setBackground(foodFrame.getBackground());
+							
+							inde_cre.add(num);
+							inde_cre.add(incre);
+							inde_cre.add(decre);
+
+							tempFrame.add(close);
+							tempFrame.add(inde_cre);
+							choiceFrame.add(tempFrame, gbc);
+							gbc.gridy++;
+						}
+						
+						
+						if (food.getAmount() < (Integer.parseInt(num.getText())+1)) {
+							JOptionPane.showMessageDialog(null, "Out of stock!!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+						}else incre_selec(food.getFood_id(), num);
+						num.setVisible(false);
+						num.setVisible(true);
+						
+						tempFrame.setVisible(false);
+						tempFrame.setVisible(true);
+						
+						choiceFrame.setVisible(false);
+						choiceFrame.setVisible(true);
+					}
+				}
+			});
+            
             // Thêm nút vào panel
             foodFrame.add(button, gbc);
             gbc.gridy++; // Tăng vị trí hàng
         }
-		gbc.gridy = 0;
+
 		foodFrame.setVisible(false);
 		drinkFrame.setVisible(false);
 		foodFrame.setVisible(true);

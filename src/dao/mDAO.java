@@ -66,4 +66,14 @@ public class mDAO {
 		return mn;
 	}
 	
+	public String exportMSelected_name(int m_id) {
+		String name = "";
+		movie m[] = exportMovie();
+		
+		for (int i = 0; i<m.length; i++)
+			if (m[i].getM_id() == m_id) name = m[i].getM_name();
+		
+		return name;
+	}
+	
 }

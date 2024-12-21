@@ -11,6 +11,38 @@ public class vDAO {
 	
 	private Connection connect = null;
 	
+	public void updateIs_selected() {
+			
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "UPDATE v"
+					+ "\nSET is_selected = 0;";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			int kq = pst.executeUpdate();
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
+	public void selectedToState() {
+		try {
+			connect = jdbc_new.getConnection();
+			
+			String sql = "UPDATE v"
+					+ "\nSET state = 1"
+					+ "\nWHERE is_selected = 1";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			int kq = pst.executeUpdate();
+			
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
 	public boolean getState_v(String name, int ms_id) {
 		boolean check = false;
 		
@@ -130,6 +162,86 @@ public class vDAO {
 					v[i].setIs_selected(is_selected);
 					
 					i++;
+				}
+			}
+			
+			jdbc_new.closeConnection(connect);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return v;
+	}
+	
+	public boolean checkSelected() {
+		boolean check = false;
+		
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "SELECT * FROM v";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while(result.next()) {
+				int temp = result.getInt("is_selected");
+				if ( temp != 0) {
+					check = true;
+					break;
+				}
+			}
+			
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return check;
+	}
+	
+	public vip[] get_vipSelected() {
+		vip[] v = null;
+		int id = new msDAO().exportSelected_ms().getMs_id();
+		int num = 0;
+		
+		try {
+			
+			connect = jdbc_new.getConnection();
+			String sql = "Select * from v";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while (result.next()) {
+				int temp = result.getInt("is_selected");
+				if (result.getInt("ms_id") == id) {
+					if (temp != 0) num++;
+				}
+				else continue;
+			}
+			
+			result = pst.executeQuery();
+			v = new vip[num];
+			int i = 0;
+			
+			while (result.next()) {
+				int temp = result.getInt("is_selected");
+				if (result.getInt("ms_id") == id) {
+					if (temp != 0) {
+						v[i] = new vip();
+						
+						String name = result.getString("m_name");
+						Boolean state = result.getInt("state") == 0 ? false : true;
+						int ms_id = result.getInt("ms_id");
+						Boolean is_selected = result.getInt("is_selected") == 0 ? false : true;
+						
+						v[i].setName(name);
+						v[i].setState(state);
+						v[i].setMs_id(ms_id);
+						v[i].setIs_selected(is_selected);
+						
+						i++;
+					}
 				}
 			}
 			

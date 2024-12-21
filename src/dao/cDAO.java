@@ -92,6 +92,21 @@ public class cDAO {
 		
 	}
 	
+	public void updateIs_selected() {
+		
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "UPDATE couple"
+					+ "\nSET is_selected = 0;";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			int kq = pst.executeUpdate();
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
 	public couple[] exportC() {
 		
 		couple[] c = null;
@@ -130,6 +145,105 @@ public class cDAO {
 					c[i].setIs_selected(is_selected);
 					
 					i++;
+				}
+			}
+			
+			jdbc_new.closeConnection(connect);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return c;
+	}
+	
+	public boolean checkSelected() {
+		boolean check = false;
+		
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "SELECT * FROM couple";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while(result.next()) {
+				int temp = result.getInt("is_selected");
+				if ( temp != 0) {
+					check = true;
+					break;
+				}
+			}
+			
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return check;
+	}
+	
+	public void selectedToState() {
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "SELECT * FROM couple";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			
+			sql = "UPDATE couple"
+					+ "\nSET state = 1"
+					+ "\nWHERE is_selected = 1";
+			pst = connect.prepareStatement(sql);
+			int kq = pst.executeUpdate();
+			
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
+	public couple[] get_coupleSelected() {
+		couple[] c = null;
+		int id = new msDAO().exportSelected_ms().getMs_id();
+		int num = 0;
+		
+		try {
+			
+			connect = jdbc_new.getConnection();
+			String sql = "Select * from couple";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while (result.next()) {
+				int temp = result.getInt("is_selected");
+				if (result.getInt("ms_id") == id) {
+					if (temp != 0) num++;
+				}
+				else continue;
+			}
+			
+			result = pst.executeQuery();
+			c = new couple[num];
+			int i = 0;
+			
+			while (result.next()) {
+				int temp = result.getInt("is_selected");
+				if (result.getInt("ms_id") == id) {
+					if (temp != 0) {
+						c[i] = new couple();
+						
+						String name = result.getString("m_name");
+						Boolean state = result.getInt("state") == 0 ? false : true;
+						int ms_id = result.getInt("ms_id");
+						Boolean is_selected = result.getInt("is_selected") == 0 ? false : true;
+						
+						c[i].setName(name);
+						c[i].setState(state);
+						c[i].setMs_id(ms_id);
+						c[i].setIs_selected(is_selected);
+						
+						i++;
+					}
 				}
 			}
 			

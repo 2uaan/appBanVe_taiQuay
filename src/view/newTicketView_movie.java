@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -25,7 +27,8 @@ public class newTicketView_movie extends JFrame{
 	private GridBagConstraints gbc = new GridBagConstraints();
 	
 	// Data variable
-	private String[] note = {"Near Screen (75K)", "Vip (95K)", "Couple (200K)", "Sold", "Selecting"};
+	private chairPrice[] cp = new chairPrice().get_chairPrices();
+	private String[] note = {"Near Screen ("+cp[0].getPriceK()+")", "Vip ("+cp[1].getPriceK()+")", "Couple ("+cp[2].getPriceK()+")", "Sold", "Selecting"};
 	private near_screen[] ns = new nsDAO().exportNS();
 	private vip[] v = new vDAO().exportV();
 	private couple[] c = new cDAO().exportC();
@@ -325,6 +328,19 @@ public class newTicketView_movie extends JFrame{
 		done.setMnemonic(KeyEvent.VK_O);
 		done.setBorder(BorderFactory.createCompoundBorder(etched, margin2));
 		done.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		done.addActionListener(new ActionListener() {
+					
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (checkTicket_infor()) {
+					ticketInforView ti = new ticketInforView();
+					ti.setVisible(true);
+					setVisible(false);
+				}else {
+					JOptionPane.showMessageDialog(null, "Ticket is empty!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		done.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -376,6 +392,20 @@ public class newTicketView_movie extends JFrame{
 		
 	}
 	
+	public boolean checkTicket_infor() {
+		boolean ns, v, c, food, drink, result = true;
+		
+		ns = new nsDAO().checkSelected();
+		v = new vDAO().checkSelected();
+		c = new cDAO().checkSelected();
+		food = new foodDAO().checkSelected();
+		drink = new drinkDAO().checkSelected();
+		
+		if (!ns && !v && !c && !food & !drink) result = false;
+		
+		return result;
+	}
+	
 	public void add_ns_chair() {
 		for (int i = 0 ; i < ns.length; i++) {
 			String name = ns[i].getName();
@@ -393,44 +423,26 @@ public class newTicketView_movie extends JFrame{
 				temp.setText("X");
 				temp.setEnabled(false);
 			}else {
-				temp.addMouseListener(new MouseListener() {
-					
+				temp.addActionListener(new ActionListener() {
+									
 					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						if (temp.getBackground() == Color.red) {
-							temp.setBackground(new Color(0x757575));
-							nsdao.setIs_selected_ns(name, ms_id, false);
-						}
-						else {
-							temp.setBackground(Color.red);
-							nsdao.setIs_selected_ns(name, ms_id, true);
+					public void actionPerformed(ActionEvent e) {
+						if (new cDAO().checkSelected() || new vDAO().checkSelected()) {
+							JOptionPane.showMessageDialog(null, "You must choose the same type of seat!!!","Errorr!!!", JOptionPane.ERROR_MESSAGE);
+						}else {
+							
+							if (temp.getBackground() == Color.red) {
+								temp.setBackground(new Color(0x757575));
+								nsdao.setIs_selected_ns(name, ms_id, false);
+							}
+							else {
+								temp.setBackground(Color.red);
+								nsdao.setIs_selected_ns(name, ms_id, true);
+							}
 						}
 					}
-				});
+				});			
+				
 			}
 			
 			if (ns[i].isState()) temp.setBackground(new Color(0x0006BF));
@@ -481,44 +493,26 @@ public class newTicketView_movie extends JFrame{
 				temp.setText("X");
 				temp.setEnabled(false);
 			}else {
-				temp.addMouseListener(new MouseListener() {
-					
+				temp.addActionListener(new ActionListener() {
+									
 					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						if (temp.getBackground() == Color.red) {
-							temp.setBackground(colo.cineYellow);
-							vdao.setIs_selected_v(name, ms_id, false);
-						}
-						else {
-							temp.setBackground(Color.red);
-							vdao.setIs_selected_v(name, ms_id, true);
+					public void actionPerformed(ActionEvent e) {
+						if (new nsDAO().checkSelected() || new cDAO().checkSelected()) {
+							JOptionPane.showMessageDialog(null, "You must choose the same type of seat!!!","Errorr!!!", JOptionPane.ERROR_MESSAGE);
+						}else {
+							
+							if (temp.getBackground() == Color.red) {
+								temp.setBackground(colo.cineYellow);
+								vdao.setIs_selected_v(name, ms_id, false);
+							}
+							else {
+								temp.setBackground(Color.red);
+								vdao.setIs_selected_v(name, ms_id, true);
+							}
 						}
 					}
-				});
+				});			
+				
 			}
 			if (i%12 < 6) {
 				gbc.gridx = i%12;
@@ -558,6 +552,7 @@ public class newTicketView_movie extends JFrame{
 			temp.setFont(font.tilt_neon(20).deriveFont(Font.BOLD));
 			temp.setBackground(new Color(0xFF8282));
 			
+			
 			String name = c[i].getName();
 			int ms_id = c[i].getMs_id();
 			if(cdao.getIs_selected_c(name, ms_id)) {
@@ -568,44 +563,24 @@ public class newTicketView_movie extends JFrame{
 				temp.setText("X");
 				temp.setEnabled(false);
 			}else {
-				temp.addMouseListener(new MouseListener() {
+				temp.addActionListener(new ActionListener() {
 					
 					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						if (temp.getBackground() == Color.red) {
-							temp.setBackground(new Color(0xFF8282));
-							cdao.setIs_selected_c(name, ms_id, false);
-						}
-						else {
-							temp.setBackground(Color.red);
-							cdao.setIs_selected_c(name, ms_id, true);
+					public void actionPerformed(ActionEvent e) {
+						if (new nsDAO().checkSelected() || new vDAO().checkSelected()) {
+							JOptionPane.showMessageDialog(null, "You must choose the same type of seat!!!","Errorr!!!", JOptionPane.ERROR_MESSAGE);
+						}else {
+							if (temp.getBackground() == Color.red) {
+								temp.setBackground(new Color(0xFF8282));
+								cdao.setIs_selected_c(name, ms_id, false);
+							}
+							else {
+								temp.setBackground(Color.red);
+								cdao.setIs_selected_c(name, ms_id, true);
+							}
 						}
 					}
-				});
+				});			
 			}
 			
 			if (i%6 < 3) {

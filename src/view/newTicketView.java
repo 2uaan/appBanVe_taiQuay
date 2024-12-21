@@ -254,6 +254,19 @@ public class newTicketView extends JFrame{
 		done.setMnemonic(KeyEvent.VK_O);
 		done.setBorder(BorderFactory.createCompoundBorder(etched, margin0));
 		done.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		done.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (checkTicket_infor()) {
+					ticketInforView ti = new ticketInforView();
+					ti.setVisible(true);
+					setVisible(false);
+				}else {
+					JOptionPane.showMessageDialog(null, "Ticket is empty!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		done.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -302,6 +315,20 @@ public class newTicketView extends JFrame{
 		add(horizontal);
 		
 		
+	}
+	
+	public boolean checkTicket_infor() {
+		boolean ns, v, c, food, drink, result = true;
+		
+		ns = new nsDAO().checkSelected();
+		v = new vDAO().checkSelected();
+		c = new cDAO().checkSelected();
+		food = new foodDAO().checkSelected();
+		drink = new drinkDAO().checkSelected();
+		
+		if (!ns && !v && !c && !food & !drink) result = false;
+		
+		return result;
 	}
 	
 	public void show_movie_name() {

@@ -2,11 +2,15 @@ package test;
 
 import dao.*;
 import model_data.*;
+import view.newTicketView;
 
 public class testData {
 	public static void main(String[] args) {
-//		near_screen[] temp = new nsDAO().exportNS();
+		//
 		
+		drink[] temp = new drinkDAO().get_drinkSelected();
+		
+		new foodDAO().updateAmoutAfterBuy();
 //		movie_screening ms_select = new msDAO().exportSelected_ms();
 		
 //		System.out.println(ms_select.getDay());
@@ -22,15 +26,23 @@ public class testData {
 //		else System.out.println("Ghe trong");
 		
 //		System.out.println("df");
-		for (int i = 0 ; i< 5; i ++) System.out.println(new foodDAO().increNum_selected(3001));;
+//		for (int i = 0 ; i< 5; i ++) System.out.println(new foodDAO().increNum_selected(3001));;
 	
+//		System.out.println(new nsDAO().check_numSelected());
+//		System.out.println(new vDAO().check_numSelected());
+//		System.out.println(new cDAO().check_numSelected());
+//		System.out.println(new foodDAO().checkSelected());
+//		System.out.println(new drinkDAO().checkSelected());
+//		System.out.println(new newTicketView().checkTicket_infor());
 		
 //		String str = "17:30:00";
 //		System.out.println(new msDAO().remove_second(str));
 		
 //		for (int i = 0; i < temp.length; i++) {
-//			System.out.println(temp[i].getD_name() + "-----" + i + "-----" + temp[i].getPrice());
+//			System.out.println(temp[i].getD_name() + "-----" + i + "-----" + temp[i].getNum_selected());
 //		}
+//		
+//		System.out.println(price);
 		
 //		
 	}

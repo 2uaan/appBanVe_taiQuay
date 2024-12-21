@@ -45,10 +45,14 @@ public class food {
 		this.f_name = f_name;
 	}
 
-	public String getPrice() {
+	public String getPriceK() {
 		int temp = price;
 		String newPrice = temp/1000 + "K";
 		return newPrice;
+	}
+	
+	public int getPrice() {
+		return price;
 	}
 
 	public void setPrice(int price) {

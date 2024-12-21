@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 
 import controller.changePageListener;
+import dao.*;
 import dao.staffDAO;
 import model_component.*;
 
@@ -39,6 +40,12 @@ public class mainPageView extends JFrame{
 		setLayout(null);
 		setIconImage(new ImageIcon("image\\logo.png").getImage());
 		frame.setBackground(colo.back);
+		
+		new nsDAO().updateIs_selected();
+		new vDAO().updateIs_selected();
+		new cDAO().updateIs_selected();
+		new foodDAO().updateNum_selected();
+		new drinkDAO().updateNum_selected();
 		
 		exit = new JButton("← Exit Shift");
 		newTicket = new JButton("+ New Ticket");
