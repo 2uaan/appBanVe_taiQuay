@@ -113,7 +113,7 @@ public class newTicketView_movie extends JFrame{
 		
 		img_poster = new JLabel();
 		if (ms_select.getM_id() != 0) {
-			img_poster.setIcon(slideImage[ms_select.getM_id() % 10 -1]);
+			img_poster.setIcon(new ImageIcon("image\\poster\\p"+(ms_select.getM_id()%10)+".png"));
 		}
 		
 		poster.add(img_poster);

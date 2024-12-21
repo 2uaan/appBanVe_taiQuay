@@ -8,9 +8,12 @@ public class testData {
 	public static void main(String[] args) {
 		//
 		
-		drink[] temp = new drinkDAO().get_drinkSelected();
-		
-		new foodDAO().updateAmoutAfterBuy();
+//		drink[] temp = new drinkDAO().get_drinkSelected();
+//		
+//		new foodDAO().updateAmoutAfterBuy();
+		for (int i = 1001; i < 1019; i++) {
+			new nsDAO().addNS(i);
+		}
 //		movie_screening ms_select = new msDAO().exportSelected_ms();
 		
 //		System.out.println(ms_select.getDay());

@@ -220,19 +220,23 @@ public class ticketInforView extends JFrame{
 	public String makeFood() {
 		food[] f = new foodDAO().get_foodSelected();
 		drink[] d = new drinkDAO().get_drinkSelected();
-		String fnd = "Food/Drink: ";
+		String fnd = "<html><div style='text-align: center;'>Food: ";
+		int check = 0;
 		
-		if (f.length == 0 && d.length == 0) fnd += "---";
+		if (f.length == 0 && d.length == 0) fnd += "---<br>Drink: ---";
 		else {
 			for (int i = 0; i< f.length; i++) {
 				fnd += f[i].getNum_selected() + "-" + f[i].getF_name() + " || ";
 			}
+			fnd = fnd.substring(0, fnd.length()-4);
+			fnd += "<br>Drink:";
 			for (int i = 0; i< d.length; i++) {
 				fnd += d[i].getNum_selected() + "-" + d[i].getD_name() + " || ";
 			}
 			fnd = fnd.substring(0, fnd.length()-4);
 		}
 		
+		fnd = fnd+"</div></html>";
 		
 		return fnd;
 	}

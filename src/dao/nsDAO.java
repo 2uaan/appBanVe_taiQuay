@@ -182,26 +182,28 @@ public class nsDAO {
 		return temp;
 	}
 	
-	public void addNS(int num) {
+	public void addNS(int ms_id) {
 		
 		try {
 			
 			connect = jdbc_new.getConnection();
-			String sql = "INSERT INTO couple \nVALUES";
+			String sql = "INSERT INTO ns \nVALUES";
 			
-			for (int j = 1; j<13; j++) {
-				sql+= "\n(?,0,100"+num+",0),";
+			for (int j = 1; j<25; j++) {
+				sql+= "\n(?,0,"+ms_id+",0),";
 			}
 			
 			sql = remove_second(sql) + ";";
 			
+			System.out.println(sql);
+			
 			PreparedStatement pst = connect.prepareStatement(sql);
 			for (int i =0; i<2; i++) {
 				char ch;
-				if (i==0) ch = 'E';
-				else ch = 'F';
-				for (int j = 1; j< 7; j++) {
-					pst.setString(i*6 + j, ch+""+j);
+				if (i==0) ch = 'A';
+				else ch = 'B';
+				for (int j = 1; j< 13; j++) {
+					pst.setString(i*12 + j, ch+""+j);
 				}
 			}
 			
