@@ -10,6 +10,82 @@ import model_data.*;
 import view.newTicketView;
 
 public class testData {
+	
+	public static String[] str_to_strArray(String str) {
+		String strArray[] = null;
+		String temp = "";
+		int num = 0;
+		
+		for (int i = 0; i< str.length(); i++) {
+			if (i == str.length()-4) break;
+			if (str.charAt(i) == '|' && str.charAt(i+1) == '|') {
+				num++;
+			}
+		}
+		
+		strArray =  new String[num+1];
+		int n = 0;
+		for (int i = 0 ; i < str.length(); i++) {
+			
+			if (str.charAt(i) != ' ' && str.charAt(i) != '|') temp += str.charAt(i);
+			
+			if (i > str.length() - 3) {
+				if (i == str.length()-1) {
+					strArray[n] = temp;
+					n++;
+					temp = "";
+				}
+			}else {
+				if (str.charAt(i) == ' ' && str.charAt(i+1) == '|') {
+					strArray[n] = temp;
+					n++;
+					temp = "";
+				}
+			}
+			
+			
+		}
+		
+		return strArray;
+	}
+	
+	public static String strArray_to_foodLabel(String[] strArray) {
+		String food = "<html><div>";
+		
+		if (strArray.length == 0) food = "---";
+		else {
+			
+			for (int i = 0; i < strArray.length; i++) {
+				food+= strArray[i];
+				if (i%2 == 1 && i != strArray.length-1) food += "<br>";
+				else food += " || ";
+			}
+			food = food.substring(0, food.length()-4);
+			
+			food += "</div></html>";
+		}
+		
+		
+		return food;
+	}
+	
+	public static String detachSeat_byChar(String str, char ch) {
+		String temp = "<html><div>";
+		
+		if (str.equals("")) temp = "---";
+		else {
+			for (int i = 0; i < str.length(); i++) {
+				if (str.charAt(i) == ch) {
+					temp+= "<br>";
+				}else {
+					temp += str.charAt(i);					
+				}
+			}
+		}
+		temp+= "</div></html>";
+		return temp;
+	}
+	
 	public static void main(String[] args) {
 		//
 //		food[] f = new foodDAO().get_foodSelected();
@@ -17,7 +93,7 @@ public class testData {
 //		String food = "";
 //		String drink = "";
 //		
-//		for (int i = 0; i< f.length; i++) {
+//		for (int i = 0; i< f.length; i++) { 
 //			food += f[i].getF_name() + "~" + f[i].getNum_selected();
 //		}
 //		
@@ -25,16 +101,11 @@ public class testData {
 //			drink += d[i].getD_name() + "~" + d[i].getNum_selected();
 //		}
 //		System.out.println(food + drink);
-		LocalDate dateNow = LocalDate.now();
-		LocalTime timeNow = LocalTime.now();
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String date = dateNow.format(formatter);
-		formatter = DateTimeFormatter.ofPattern("HH:mm");
-        String time = timeNow.format(formatter);
-        System.out.println(date);
-        System.out.println(time);
-		
+
+        String test = "Popcorn~1~cocacola";
+        
+        System.out.println(detachSeat_byChar(test, '~'));
+        
 //		movie_screening ms_select = new msDAO().exportSelected_ms();
 		
 //		System.out.println(ms_select.getDay());

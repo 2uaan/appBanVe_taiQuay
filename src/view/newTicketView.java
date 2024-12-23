@@ -15,6 +15,7 @@ import controller.*;
 import model_component.*;
 import model_data.*;
 import view.acceptView.acceptMovie_screening;
+import view.acceptView.loadingView;
 
 public class newTicketView extends JFrame{
 	
@@ -407,9 +408,10 @@ public class newTicketView extends JFrame{
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							acceptMovie_screening acs = new acceptMovie_screening(m_name, ms_time, ms_id);
+//							acceptMovie_screening acs = new acceptMovie_screening(m_name, ms_time, ms_id);
 							msdao.updateMS_state(ms_id, true);
-							acs.setVisible(true);
+//							acs.setVisible(true);
+							new loadingView(2);
 							setVisible(false);
 						}
 					});

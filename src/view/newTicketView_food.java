@@ -84,7 +84,7 @@ public class newTicketView_food extends JFrame{
 		
 		foodScroll = new JScrollPane(foodFrame);
 		choiceScroll = new JScrollPane(choiceFrame);
-		choiceScroll.setBounds(540,40, 400,480);
+		choiceScroll.setBounds(540,40, 385,480);
 		
 		
 		fnd = new JTabbedPane();

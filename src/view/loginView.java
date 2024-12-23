@@ -18,6 +18,7 @@ import dao.staffDAO;
 import model_component.*;
 import model_data.staff;
 import thread.slidePoster;
+import view.acceptView.loadingView;
 
 public class loginView extends JFrame{
 	
@@ -185,8 +186,7 @@ public class loginView extends JFrame{
 				if(check != 0) {
 					stdao.setStateStaff(check);
 					setVisible(false);
-					mainPageView temp = new mainPageView();
-					temp.setVisible(true);
+					new loadingView(1);
 				}else {
 					JOptionPane.showMessageDialog(null, "OOPS!! User information is incorrect!!!","Errorr!!!", JOptionPane.ERROR_MESSAGE);
 					nvIDTF.setText("");

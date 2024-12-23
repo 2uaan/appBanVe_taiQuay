@@ -12,6 +12,7 @@ import controller.changePageListener;
 import dao.*;
 import model_component.*;
 import model_data.*;
+import view.acceptView.loadingView;
 
 public class mainPageView extends JFrame{
 	
@@ -77,7 +78,14 @@ public class mainPageView extends JFrame{
 		
 		exit.setForeground(Color.white);
 		exit.setBorder(BorderFactory.createEtchedBorder());
-		exit.addActionListener(new changePageListener(this, "login", false));
+		exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new loadingView(0);
+				setVisible(false);
+			}
+		});
 		exit.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseExited(MouseEvent e) {
