@@ -7,6 +7,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
@@ -25,7 +27,7 @@ public class loginView extends JFrame{
 	private JPasswordField nvPassTF;
 	private borderFrame loginView;
 	private JButton next, show_hide;
-	private ImageIcon[] slideImage = {new ImageIcon("image\\poster\\p1.png"),new ImageIcon("image\\poster\\p2.png"),new ImageIcon("image\\poster\\p3.png"),new ImageIcon("image\\poster\\p4.png"),new ImageIcon("image\\poster\\p5.png"),new ImageIcon("image\\poster\\p6.png"),new ImageIcon("image\\poster\\p7.png")};
+	private ImageIcon[] slideImage = {new ImageIcon("image\\poster\\p1.png"),new ImageIcon("image\\poster\\p2.png"),new ImageIcon("image\\poster\\p3.png"),new ImageIcon("image\\poster\\p4.png"),new ImageIcon("image\\poster\\p5.png"),new ImageIcon("image\\poster\\p6.png")};
 	private colors colo = new colors();
 	private fonT font = new fonT();
 	private String tempP;
@@ -248,6 +250,21 @@ public class loginView extends JFrame{
 		
 		add(slider);
 		add(loginView);
+		
+		addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+              
+                    sli.stopp(); // Dừng luồng
+                    try {
+                        sli.join(); // Chờ luồng dừng hẳn trước khi đóng cửa sổ
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    setVisible(false);; // Đóng cửa sổ
+                }
+        
+        });
 		
 		background = new JLabel();
 		background.setIcon(new ImageIcon("image\\back.png"));

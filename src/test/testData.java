@@ -1,5 +1,10 @@
 package test;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 import dao.*;
 import model_data.*;
 import view.newTicketView;
@@ -7,13 +12,29 @@ import view.newTicketView;
 public class testData {
 	public static void main(String[] args) {
 		//
-		
-//		drink[] temp = new drinkDAO().get_drinkSelected();
+//		food[] f = new foodDAO().get_foodSelected();
+//		drink[] d = new drinkDAO().get_drinkSelected();
+//		String food = "";
+//		String drink = "";
 //		
-//		new foodDAO().updateAmoutAfterBuy();
-		for (int i = 1001; i < 1019; i++) {
-			new nsDAO().addNS(i);
-		}
+//		for (int i = 0; i< f.length; i++) {
+//			food += f[i].getF_name() + "~" + f[i].getNum_selected();
+//		}
+//		
+//		for (int i = 0; i< d.length; i++) {
+//			drink += d[i].getD_name() + "~" + d[i].getNum_selected();
+//		}
+//		System.out.println(food + drink);
+		LocalDate dateNow = LocalDate.now();
+		LocalTime timeNow = LocalTime.now();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String date = dateNow.format(formatter);
+		formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String time = timeNow.format(formatter);
+        System.out.println(date);
+        System.out.println(time);
+		
 //		movie_screening ms_select = new msDAO().exportSelected_ms();
 		
 //		System.out.println(ms_select.getDay());
@@ -42,7 +63,7 @@ public class testData {
 //		System.out.println(new msDAO().remove_second(str));
 		
 //		for (int i = 0; i < temp.length; i++) {
-//			System.out.println(temp[i].getD_name() + "-----" + i + "-----" + temp[i].getNum_selected());
+//			System.out.println(temp[i].getMs_id() + "-----" + i + "-----" + temp[i].getName());
 //		}
 //		
 //		System.out.println(price);

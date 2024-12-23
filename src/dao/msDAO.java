@@ -12,10 +12,43 @@ public class msDAO {
 	
 	Connection connect = null;
 	
-	public String remove_second(String time) {
-		String temp = "";
-		for (int i = 0; i < time.length()-3; i++) temp += time.charAt(i);
-		return temp;
+	public movie_screening[] selectMS_whereM_id(int m_id) {
+		movie_screening ms[] = null;
+		int num = 0;
+		try {
+			connect = jdbc_new.getConnection();
+			String sql = "SELECT * FROM movie_screening"
+					+ "\nWHERE m_id = ?";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			pst.setInt(1, m_id);
+			ResultSet result = pst.executeQuery();
+			
+			while ( result.next()) {
+				String temp = result.getString(4);
+				num++;
+			}
+			result = pst.executeQuery();
+			ms = new movie_screening[num];
+			int i = 0;
+			while ( result.next()) {
+				ms[i] = new movie_screening(
+						result.getInt(1), 
+						result.getInt(2),
+						result.getInt(3),
+						result.getString(4), 
+						result.getString(5), 
+						result.getString(6), 
+						result.getInt(7) == 0 ? false : true
+								);
+				i++;
+			}
+			
+			jdbc_new.closeConnection(connect);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return ms;
 	}
 	
 	public movie_screening exportSelected_ms() {
@@ -47,8 +80,8 @@ public class msDAO {
 				ms.setMs_id(ms_id);
 				ms.setM_id(m_id);
 				ms.setOrder_cinema(order_cinema);
-				ms.setTime_in(remove_second(time_in));
-				ms.setTime_out(remove_second(time_out));
+				ms.setTime_in(time_in);
+				ms.setTime_out(time_out);
 				ms.setDay(day);
 				ms.setState(state);
 			}
@@ -143,8 +176,8 @@ public class msDAO {
 				ms[i].setMs_id(ms_id);
 				ms[i].setM_id(m_id);
 				ms[i].setOrder_cinema(order_cinema);
-				ms[i].setTime_in(remove_second(time_in));
-				ms[i].setTime_out(remove_second(time_out));
+				ms[i].setTime_in(time_in);
+				ms[i].setTime_out(time_out);
 				ms[i].setDay(day);
 				ms[i].setState(state);
 				

@@ -59,7 +59,7 @@ public class movie_screening {
 	}
 
 	public String getTime_in() {
-		return time_in;
+		return time_in.substring(0, time_in.length()-3);
 	}
 
 	public void setTime_in(String time_in) {
@@ -67,7 +67,7 @@ public class movie_screening {
 	}
 
 	public String getTime_out() {
-		return time_out;
+		return time_out.substring(0, time_out.length()-3);
 	}
 
 	public void setTime_out(String time_out) {

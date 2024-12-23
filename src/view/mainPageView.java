@@ -10,8 +10,8 @@ import javax.swing.*;
 
 import controller.changePageListener;
 import dao.*;
-import dao.staffDAO;
 import model_component.*;
+import model_data.*;
 
 public class mainPageView extends JFrame{
 	
@@ -82,7 +82,6 @@ public class mainPageView extends JFrame{
 			@Override
 			public void mouseExited(MouseEvent e) {
 				exit.setBorder(BorderFactory.createEtchedBorder());
-				
 			}
 			
 			@Override

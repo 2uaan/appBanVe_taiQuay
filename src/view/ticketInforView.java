@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.*;
 import model_component.*;
@@ -81,6 +84,7 @@ public class ticketInforView extends JFrame{
 		seatL.setForeground(colo.cineYellow);
 		mainFrame.add(seatL,gbc);
 		
+		
 		gbc.gridy++;
 		fndL = new JLabel(makeFood(), JLabel.CENTER);
 		fndL.setFont(font.tilt_neon(18));
@@ -135,6 +139,59 @@ public class ticketInforView extends JFrame{
 				new cDAO().selectedToState();
 				new foodDAO().updateAmoutAfterBuy();
 				new drinkDAO().updateAmoutAfterBuy();
+				
+				food[] f = new foodDAO().get_foodSelected();
+				drink[] d = new drinkDAO().get_drinkSelected();
+				String food = "";
+				String drink = "";
+				String str = makeSeat();
+				
+				LocalDate dateNow = LocalDate.now();
+				LocalTime timeNow = LocalTime.now();
+				
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+				String date = dateNow.format(formatter);
+				formatter = DateTimeFormatter.ofPattern("HH:mm");
+		        String time = timeNow.format(formatter);
+				
+				if (f.length == 0) food = "";
+				else {
+					for (int i = 0; i< f.length; i++) {
+						food += f[i].getF_name() + "~" + f[i].getNum_selected() + " || ";
+					}
+					food = food.substring(0, food.length()-4);					
+				}
+				
+				if (d.length == 0) drink = "";
+				else {					
+					for (int i = 0; i< d.length; i++) {
+						drink += d[i].getD_name() + "~" + d[i].getNum_selected() + " || ";
+					}
+					drink = drink.substring(0, drink.length()-4);
+				}
+				
+				
+				
+				String seat = "";
+				
+				if (str.equals("  -----  ")) seat = "";
+				else {
+					
+					seat = str.substring(0, str.length()-15) + "~" +str.substring(str.length()-6);
+					
+					str = seat;
+					seat = "";
+					for (int i = 0; i< str.length(); i++) {
+						if (str.charAt(i) == ' ') {
+							continue;
+						}else seat += str.charAt(i);
+					}
+					seat += "~"+ movie_screening.getTime_in();
+				}
+				
+				
+				new ticketDAO().addNewTicket(food, drink ,seat, time + " " + date);
+				
 				mainPageView mp = new mainPageView();
 				mp.setVisible(true);
 				setVisible(false);
@@ -225,15 +282,23 @@ public class ticketInforView extends JFrame{
 		
 		if (f.length == 0 && d.length == 0) fnd += "---<br>Drink: ---";
 		else {
-			for (int i = 0; i< f.length; i++) {
-				fnd += f[i].getNum_selected() + "-" + f[i].getF_name() + " || ";
+			if (f.length == 0) {
+				fnd += "---";
+			}else {
+				for (int i = 0; i< f.length; i++) {
+					fnd += f[i].getNum_selected() + "-" + f[i].getF_name() + " || ";
+				}
+				fnd = fnd.substring(0, fnd.length()-4);
 			}
-			fnd = fnd.substring(0, fnd.length()-4);
 			fnd += "<br>Drink:";
-			for (int i = 0; i< d.length; i++) {
-				fnd += d[i].getNum_selected() + "-" + d[i].getD_name() + " || ";
+			if (d.length ==  0) {
+				fnd += " ---";
+			}else {
+				for (int i = 0; i< d.length; i++) {
+					fnd += d[i].getNum_selected() + "-" + d[i].getD_name() + " || ";
+				}
+				fnd = fnd.substring(0, fnd.length()-4);
 			}
-			fnd = fnd.substring(0, fnd.length()-4);
 		}
 		
 		fnd = fnd+"</div></html>";

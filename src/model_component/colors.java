@@ -13,6 +13,9 @@ public class colors {
 	public Color cineYellow = new Color(0xFFE8A3);
 	public Color cineBlack = new Color(0x2C2C2C);
 	
+	public Color darkRed = new Color(0x780116);
+	public Color lightPink = new Color(0xDD948C);
+	
 	public Color transparent = new Color(0,0,0,0);
 	
 	public Color cineRedOpa(int opa) {

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 public class slidePoster extends Thread{
 
+	private volatile boolean running = true;
 	private ImageIcon[] c;
 	private JLabel b;
 	private JPanel o;
@@ -25,46 +26,56 @@ public class slidePoster extends Thread{
 
 	@Override
 	public void run() {
-		while (true) {
-			int doMo = 255;
-			for (int i = 0; i<254; i++) {
-				o.setBackground(new Color(255,255,255,doMo));
-				o.setVisible(false);
-				o.setVisible(true);
-				doMo--;
-				try {
-					Thread.sleep(5);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		while (running) {
+			try {
+				int doMo = 255;
+				for (int i = 0; i<254; i++) {
+					o.setBackground(new Color(255,255,255,doMo));
+					o.setVisible(false);
+					o.setVisible(true);
+					doMo--;
+					try {
+						Thread.sleep(5);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-			}
-			ImageIcon co = new ImageIcon();
-			for (int i = 0 ; i< c.length; i++) {
-				if (key == i) {
-					co = c[i];
+				ImageIcon co = new ImageIcon();
+				for (int i = 0 ; i< c.length; i++) {
+					if (key == i) {
+						co = c[i];
+					}
 				}
-			}
-			key++;
-			for (int i = 0; i<254; i++) {
-				o.setBackground(new Color(255,255,255,doMo));
-				o.setVisible(false);
-				o.setVisible(true);
-				doMo++;
-				try {
-					Thread.sleep(5);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				key++;
+				for (int i = 0; i<254; i++) {
+					o.setBackground(new Color(255,255,255,doMo));
+					o.setVisible(false);
+					o.setVisible(true);
+					doMo++;
+					try {
+						Thread.sleep(5);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-			}
-			
-			b.setIcon(co);
-			
-			b.setVisible(false);
-			b.setVisible(true);
-			if(key == c.length) key = 0;
+				
+				b.setIcon(co);
+				
+				b.setVisible(false);
+				b.setVisible(true);
+				if(key == c.length) key = 0;
+				
+                Thread.sleep(0); // Mô phỏng công việc
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("Thread interrupted");
+            }
 		}
 	}
 	
+	public void stopp() {
+		running = false;
+	}
 }

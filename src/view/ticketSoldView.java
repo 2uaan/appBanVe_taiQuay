@@ -9,15 +9,23 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import controller.*;
+import dao.ticketDAO;
 import model_component.*;
+import model_data.*;
 
 public class ticketSoldView extends JFrame{
 	
 	private JPanel frame, vertical, horizontal, soldFrame;
 	private JScrollPane soldScroll;
+	private JButton backToMainPage;
+	private JLabel stt_col, food_col, drink_col, seat_col, timeDate_col;
+	private GridBagConstraints gbc = new GridBagConstraints();
 	private colors colo = new colors();
 	private fonT font = new fonT();
-	private JButton backToMainPage;
+	private margin ma = new margin();
+	
+	// Data variable
+	private ticket[] t = new ticketDAO().exportTicket();
 	
 	public static void main(String[] args) {
 		new ticketSoldView().setVisible(true);
@@ -25,7 +33,7 @@ public class ticketSoldView extends JFrame{
 	
 	public ticketSoldView() {
 		setTitle("TicKet Sold");
-		setSize(1000,675);
+		setSize(1000,675); 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
@@ -43,18 +51,49 @@ public class ticketSoldView extends JFrame{
 
 		
 // 		Main Component
-		GridLayout grid = new GridLayout(0,1,5,5);
 //		grid.setRows(1);
 		
+		Border solid = BorderFactory.createLineBorder(colo.cineBlack);
+		
+		stt_col = new JLabel(" No.");
+		food_col = new JLabel(" Food");
+		drink_col = new JLabel(" Drink");
+		seat_col = new JLabel(" Seat");
+		timeDate_col = new JLabel(" Time/Date:");
+		
+		stt_col.setBounds(120, 50, 60, 30);
+		stt_col.setBorder(solid);
+		stt_col.setFont(font.bahnschrift(15));
+		
+		food_col.setBounds(180, 50, 180, 30);
+		food_col.setBorder(solid);
+		food_col.setFont(font.bahnschrift(15));
+		
+		drink_col.setBounds(360, 50, 180, 30);
+		drink_col.setBorder(solid);
+		drink_col.setFont(font.bahnschrift(15));
+		
+		seat_col.setBounds(540, 50, 295, 30);
+		seat_col.setBorder(solid);
+		seat_col.setFont(font.bahnschrift(15));
+		
+		timeDate_col.setBounds(835, 50, 100, 30);
+		timeDate_col.setBorder(solid);
+		timeDate_col.setFont(font.bahnschrift(15));
+		
 		soldFrame = new JPanel();
-		soldFrame.setLayout(grid);
+		soldFrame.setLayout(new GridBagLayout());
 		
 		soldScroll = new JScrollPane(soldFrame);
-		soldScroll.setBounds(120, 50, 815, 470);
+		soldScroll.setBounds(120, 80, 815, 440);
 		
 		
 		
-		
+		add(stt_col);
+		add(food_col);
+		add(drink_col);
+		add(seat_col);
+		add(timeDate_col);
 		add(soldScroll);
 		
 		vertical = new JPanel();
