@@ -28,9 +28,6 @@ public class ticketInforView extends JFrame{
 	private chairPrice cp[] = new chairPrice().get_chairPrices();
 	private movie_screening movie_screening = new msDAO().exportSelected_ms();
 	
-	public static void main(String[] args) {
-		new ticketInforView().setVisible(true);
-	}
 	
 	public ticketInforView() {
 		setTitle("Ticket");

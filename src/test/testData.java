@@ -9,11 +9,12 @@ import dao.*;
 import model_data.*;
 import view.loginView;
 import view.newTicketView;
+import view.acceptView.welcomeStaffView;
 
 public class testData {
 	
 	public static void main(String[] args) {
-		loginView lg = new loginView();
+		welcomeStaffView lg = new welcomeStaffView();
 		lg.setVisible(true);
 	}
 }

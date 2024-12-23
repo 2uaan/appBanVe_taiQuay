@@ -29,9 +29,7 @@ public class ticketSoldView extends JFrame{
 	// Data variable
 	private ticket[] t = new ticketDAO().exportTicket();
 	
-	public static void main(String[] args) {
-		new ticketSoldView().setVisible(true);
-	}
+	
 	
 	public ticketSoldView() {
 		setTitle("TicKet Sold");

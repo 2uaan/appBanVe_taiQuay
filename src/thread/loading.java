@@ -36,7 +36,7 @@ public class loading extends Thread{
 			else if (text.getText().equals("Loading  .")) text.setText("Loading  .  .");
 			else text.setText("Loading  .  .  .");
 			
-			load.setSize(load.getWidth() + 20 ,load.getHeight());
+			load.setSize(load.getWidth() + num ,load.getHeight());
 			
 			load.setVisible(false);
 			load.setVisible(true);

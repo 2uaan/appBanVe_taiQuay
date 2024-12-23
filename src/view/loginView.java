@@ -42,10 +42,6 @@ public class loginView extends JFrame{
 	private staff[] st = stdao.exportStaff();
 	
 	
-	public static void main(String[] args) {
-		new loginView().setVisible(true);
-	}
-	
 	public loginView() {
 		setTitle("Login");
 		setSize(1000,675);

@@ -34,10 +34,7 @@ public class newTicketView_food extends JFrame{
 	private int[] f_nums = new int[f.length];
 	private int[] d_nums = new int[d.length];
 	
-	public static void main(String[] args) {
-		new newTicketView_food().setVisible(true);
-	}
-	
+
 	public newTicketView_food() {
 		setTitle("New TicKet: Drink & Food");
 		setSize(1000,675);

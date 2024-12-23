@@ -25,10 +25,6 @@ public class mainPageView extends JFrame{
 	private staffDAO stdao = new staffDAO();
 	
 	
-	public static void main(String[] args) {
-		new mainPageView().setVisible(true);
-	}
-	
 	public mainPageView() {
 		setTitle("Main Page");
 		setSize(1000,675);

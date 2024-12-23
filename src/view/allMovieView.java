@@ -26,12 +26,6 @@ public class allMovieView extends JFrame{
 	private JButton backToMainPage;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	
-	//Data variable
-	
-	public static void main(String[] args) {
-		new allMovieView().setVisible(true);
-	}
-	
 	public allMovieView() {
 		setTitle("All Movie");
 		setSize(1000,675);

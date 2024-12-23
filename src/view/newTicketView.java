@@ -37,9 +37,6 @@ public class newTicketView extends JFrame{
 	private movie_screening[] ms = msdao.exportMovie_screening();
 	
 	
-	public static void main(String[] args) {
-		new newTicketView().setVisible(true);
-	}
 	
 	public newTicketView() {
 		setTitle("New TicKet");

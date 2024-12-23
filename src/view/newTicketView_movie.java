@@ -37,9 +37,6 @@ public class newTicketView_movie extends JFrame{
 	private vDAO vdao = new vDAO();
 	private cDAO cdao = new cDAO();
 	
-	public static void main(String[] args) {
-		new newTicketView_movie().setVisible(true);
-	}
 	
 	public newTicketView_movie() {
 		setTitle("New Ticket: Movie");
