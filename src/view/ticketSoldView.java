@@ -43,7 +43,7 @@ public class ticketSoldView extends JFrame{
 		frame = new JPanel();
 		setContentPane(frame);
 		setLayout(null);
-		setIconImage(new ImageIcon("image\\logo.png").getImage());
+		setIconImage(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\logo.png").getImage());
 		frame.setBackground(colo.back);
 		
 		new JButton("✓ Done");
@@ -175,7 +175,7 @@ public class ticketSoldView extends JFrame{
 			}
 		});
 		
-		ImageIcon before = new ImageIcon("image\\interface_icon\\refresh.png");
+		ImageIcon before = new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\interface_icon\\refresh.png");
 		Image after = before.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		
 		refresh = new JButton();

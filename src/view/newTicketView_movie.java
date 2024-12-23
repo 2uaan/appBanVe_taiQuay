@@ -32,7 +32,6 @@ public class newTicketView_movie extends JFrame{
 	private near_screen[] ns = new nsDAO().exportNS();
 	private vip[] v = new vDAO().exportV();
 	private couple[] c = new cDAO().exportC();
-	private ImageIcon[] slideImage = {new ImageIcon("image\\poster\\p1.png"),new ImageIcon("image\\poster\\p2.png"),new ImageIcon("image\\poster\\p3.png")};
 	private movie_screening ms_select = new msDAO().exportSelected_ms();
 	private nsDAO nsdao = new nsDAO();
 	private vDAO vdao = new vDAO();
@@ -52,13 +51,13 @@ public class newTicketView_movie extends JFrame{
 		frame = new JPanel();
 		setContentPane(frame);
 		setLayout(null);
-		setIconImage(new ImageIcon("image\\logo.png").getImage());
+		setIconImage(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\logo.png").getImage());
 		frame.setBackground(colo.back);
 		
 		done = new JButton("✓ Done");
 		backToMainPage = new JButton("←");
 		backToNewTicket = new JButton();
-		backToNewTicket.setIcon(new ImageIcon("image\\interface_icon\\movie_reel.png"));
+		backToNewTicket.setIcon(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\interface_icon\\movie_reel.png"));
 		backToNewTicket.setBounds(120, 30, 50,40);
 		backToNewTicket.setBackground(colo.cineYellow);
 		backToNewTicket.setMargin(new Insets(0, 0, 0, 0));
@@ -113,7 +112,7 @@ public class newTicketView_movie extends JFrame{
 		
 		img_poster = new JLabel();
 		if (ms_select.getM_id() != 0) {
-			img_poster.setIcon(new ImageIcon("image\\poster\\p"+(ms_select.getM_id()%10)+".png"));
+			img_poster.setIcon(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\poster\\p"+(ms_select.getM_id()%10)+".png"));
 		}
 		
 		poster.add(img_poster);

@@ -42,7 +42,7 @@ public class allMovieView extends JFrame{
 		frame = new JPanel();
 		setContentPane(frame);
 		setLayout(null);
-		setIconImage(new ImageIcon("image\\logo.png").getImage());
+		setIconImage(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\logo.png").getImage());
 		frame.setBackground(colo.back);
 		
 		new JButton("✓ Done");
@@ -166,7 +166,7 @@ public class allMovieView extends JFrame{
 		for (int i = 0; i < movie.length; i++) {
 			movie m = movie[i];
 			JLabel temp = new JLabel();
-			ImageIcon before = new ImageIcon("image\\poster\\p"+(i+1)+".png");
+			ImageIcon before = new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\poster\\p"+(i+1)+".png");
 			Image after = before.getImage().getScaledInstance(128, 204, Image.SCALE_SMOOTH);
 			
 			temp.setIcon(new ImageIcon(after));
@@ -257,7 +257,7 @@ public class allMovieView extends JFrame{
 			frame = new JPanel();
 			setContentPane(frame);
 			setLayout(null);
-			setIconImage(new ImageIcon("image\\logo.png").getImage());
+			setIconImage(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\logo.png").getImage());
 			frame.setBackground(colo.back);
 			
 			new JButton("✓ Done");

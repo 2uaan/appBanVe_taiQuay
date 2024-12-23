@@ -51,7 +51,7 @@ public class newTicketView extends JFrame{
 		frame = new JPanel();
 		setContentPane(frame);
 		setLayout(null);
-		setIconImage(new ImageIcon("image\\logo.png").getImage());
+		setIconImage(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\logo.png").getImage());
 		frame.setBackground(colo.back);
 		
 		msdao.updateAll_MS_state(false);

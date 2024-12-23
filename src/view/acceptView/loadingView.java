@@ -29,7 +29,7 @@ public class loadingView extends JFrame{
 		frame = new JPanel();
 		setContentPane(frame);
 		setLayout(null);
-		setIconImage(new ImageIcon("image\\logo.png").getImage());
+		setIconImage(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\logo.png").getImage());
 		frame.setBackground(colo.back);
 		
 		load = new JLabel("Loading  .  .  .");
@@ -37,7 +37,7 @@ public class loadingView extends JFrame{
 		out = new JPanel();
 		
 		load.setBounds(130, 20, 150, 40);
-		load.setFont(font.tilt_neon(25));
+		load.setFont(font.tilt_neon(25).deriveFont(Font.BOLD));
 		
 		out.setBounds(35, 60, 320, 20);
 		out.setBackground(colo.transparent);
@@ -46,7 +46,7 @@ public class loadingView extends JFrame{
 		
 		in.setBounds(0,0,0,20);
 		in.setBorder(BorderFactory.createLineBorder(colo.cineBrown));
-		in.setBackground(colo.cineBlackOpa(100));
+		in.setBackground(colo.cineBrown);
 		
 		out.add(in);
 		
@@ -55,7 +55,7 @@ public class loadingView extends JFrame{
 		
 		setVisible(true);
 		
-		loading l = new loading(this, in, out.getWidth(), no);
+		loading l = new loading(this, in, load, out.getWidth(), no);
 		l.start();
 		
 		

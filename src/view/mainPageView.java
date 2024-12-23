@@ -39,7 +39,7 @@ public class mainPageView extends JFrame{
 		frame = new JPanel();
 		setContentPane(frame);
 		setLayout(null);
-		setIconImage(new ImageIcon("image\\logo.png").getImage());
+		setIconImage(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\logo.png").getImage());
 		frame.setBackground(colo.back);
 		
 		new nsDAO().updateIs_selected();
@@ -264,7 +264,7 @@ public class mainPageView extends JFrame{
 		add(allMovie);
 		
 		background = new JLabel();
-		background.setIcon(new ImageIcon("image\\back.png"));
+		background.setIcon(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\back.png"));
 		background.setBounds(0,0,this.getWidth(),this.getHeight());
 		add(background);
 		

@@ -41,7 +41,7 @@ public class ticketInforView extends JFrame{
 		frame = new JPanel();
 		setContentPane(frame);
 		setLayout(null);
-		setIconImage(new ImageIcon("image\\logo.png").getImage());
+		setIconImage(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\logo.png").getImage());
 		frame.setBackground(colo.back);
 		
 //Component in Ticket
@@ -106,7 +106,7 @@ public class ticketInforView extends JFrame{
 		qrFrame.setBounds(722, 0, 290,330);
 		qrFrame.setBackground(new Color(0xffceb0));
 		qrFrame.setLayout(null);
-		ImageIcon originalIcon = new ImageIcon("image\\qr.png");
+		ImageIcon originalIcon = new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\qr.png");
 		Image scaledImage = originalIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		
 		qrL = new JLabel();
@@ -239,7 +239,7 @@ public class ticketInforView extends JFrame{
 		add(qrFrame);
 		
 		//Background
-		originalIcon = new ImageIcon("image\\ticket.png");
+		originalIcon = new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\ticket.png");
         scaledImage = originalIcon.getImage().getScaledInstance(1020, 330, Image.SCALE_SMOOTH);
 		background = new JLabel();
 		background.setIcon(new ImageIcon(scaledImage));

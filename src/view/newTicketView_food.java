@@ -48,7 +48,7 @@ public class newTicketView_food extends JFrame{
 		frame = new JPanel();
 		setContentPane(frame);
 		setLayout(null);
-		setIconImage(new ImageIcon("image\\logo.png").getImage());
+		setIconImage(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\logo.png").getImage());
 		frame.setBackground(colo.back);
 		
 		done = new JButton("✓ Done");
@@ -366,7 +366,7 @@ public class newTicketView_food extends JFrame{
             JButton button = new JButton(d[i].getD_name() +": "+ d[i].getPriceK());
             ImageIcon originalIcon = null;
             button.setBackground(new Color(0xED3B3B));
-            originalIcon = new ImageIcon("image\\foodIcon\\d"+(i+1)+".png");
+            originalIcon = new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\foodIcon\\d"+(i+1)+".png");
             
 
             
@@ -436,7 +436,7 @@ public class newTicketView_food extends JFrame{
 				close.setBackground(Color.red);
 				close.setForeground(Color.white);
 				close.setMargin(new Insets(0, 0, 0, 0));
-				close.setBounds(334, 3, 40, 20);
+				close.setBounds(320, 3, 40, 20);
 				close.addActionListener(new ActionListener() {
 					
 					@Override
@@ -447,7 +447,7 @@ public class newTicketView_food extends JFrame{
 				});
 				
 				JPanel inde_cre = new JPanel();
-				inde_cre.setBounds(200,35, 140, 40);
+				inde_cre.setBounds(180,35, 140, 40);
 				inde_cre.setLayout(null);
 //				inde_cre.setBackground(drinkFrame.getBackground());
 				
@@ -524,7 +524,7 @@ public class newTicketView_food extends JFrame{
 							close.setBackground(Color.red);
 							close.setForeground(Color.white);
 							close.setMargin(new Insets(0, 0, 0, 0));
-							close.setBounds(334, 3, 40, 20);
+							close.setBounds(320, 3, 40, 20);
 							close.addActionListener(new ActionListener() {
 								
 								@Override
@@ -535,7 +535,7 @@ public class newTicketView_food extends JFrame{
 							});
 							
 							JPanel inde_cre = new JPanel();
-							inde_cre.setBounds(200,35, 140, 40);
+							inde_cre.setBounds(180,35, 140, 40);
 							inde_cre.setLayout(null);
 //							inde_cre.setBackground(drinkFrame.getBackground());
 							
@@ -575,7 +575,7 @@ public class newTicketView_food extends JFrame{
             JButton button = new JButton(f[i].getF_name() +": "+ f[i].getPriceK());
             ImageIcon originalIcon = null;
             button.setBackground(new Color(0xBFA66F));
-            originalIcon = new ImageIcon("image\\foodIcon\\f"+(i+1)+".png");
+            originalIcon = new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\foodIcon\\f"+(i+1)+".png");
             
             Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(scaledImage)); 
@@ -644,7 +644,7 @@ public class newTicketView_food extends JFrame{
 				close.setBackground(Color.red);
 				close.setForeground(Color.white);
 				close.setMargin(new Insets(0, 0, 0, 0));
-				close.setBounds(334, 3, 40, 20);
+				close.setBounds(320, 3, 40, 20);
 				close.addActionListener(new ActionListener() {
 					
 					@Override
@@ -655,7 +655,7 @@ public class newTicketView_food extends JFrame{
 				});
 				
 				JPanel inde_cre = new JPanel();
-				inde_cre.setBounds(200,35, 140, 40);
+				inde_cre.setBounds(180,35, 140, 40);
 				inde_cre.setLayout(null);
 //				inde_cre.setBackground(foodFrame.getBackground());
 				
@@ -675,6 +675,8 @@ public class newTicketView_food extends JFrame{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					
+					
 					if (food.getAmount() == 0) {
 						JOptionPane.showMessageDialog(null, "Out of stock!!!!", "Errorr!!!", JOptionPane.ERROR_MESSAGE);
 					}else {
@@ -732,7 +734,7 @@ public class newTicketView_food extends JFrame{
 							close.setBackground(Color.red);
 							close.setForeground(Color.white);
 							close.setMargin(new Insets(0, 0, 0, 0));
-							close.setBounds(334, 3, 40, 20);
+							close.setBounds(320, 3, 40, 20);
 							close.addActionListener(new ActionListener() {
 								
 								@Override
@@ -743,7 +745,7 @@ public class newTicketView_food extends JFrame{
 							});
 							
 							JPanel inde_cre = new JPanel();
-							inde_cre.setBounds(200,35, 140, 40);
+							inde_cre.setBounds(180,35, 140, 40);
 							inde_cre.setLayout(null);
 //							inde_cre.setBackground(foodFrame.getBackground());
 							

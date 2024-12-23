@@ -28,7 +28,12 @@ public class loginView extends JFrame{
 	private JPasswordField nvPassTF;
 	private borderFrame loginView;
 	private JButton next, show_hide;
-	private ImageIcon[] slideImage = {new ImageIcon("image\\poster\\p1.png"),new ImageIcon("image\\poster\\p2.png"),new ImageIcon("image\\poster\\p3.png"),new ImageIcon("image\\poster\\p4.png"),new ImageIcon("image\\poster\\p5.png"),new ImageIcon("image\\poster\\p6.png")};
+	private ImageIcon[] slideImage = {new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\poster\\p1.png"),
+			new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\poster\\p2.png"),
+			new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\poster\\p3.png"),
+			new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\poster\\p4.png"),
+			new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\poster\\p5.png"),
+			new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\poster\\p6.png")};
 	private colors colo = new colors();
 	private fonT font = new fonT();
 	private String tempP;
@@ -267,7 +272,7 @@ public class loginView extends JFrame{
         });
 		
 		background = new JLabel();
-		background.setIcon(new ImageIcon("image\\back.png"));
+		background.setIcon(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\back.png"));
 		background.setBounds(0,0,this.getWidth(),this.getHeight());
 		add(background);
 		
@@ -276,8 +281,8 @@ public class loginView extends JFrame{
 	public void deco_login_frame() {
 		snack = new JLabel();
 		coca = new JLabel();
-		snack.setIcon(new ImageIcon("image\\snack.png"));
-		coca.setIcon(new ImageIcon("image\\cola.png"));
+		snack.setIcon(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\snack.png"));
+		coca.setIcon(new ImageIcon("C:\\Users\\tlmqu\\OneDrive\\Desktop\\Java Project\\appBanVe_taiQuay\\image\\cola.png"));
 		snack.setBounds(75, 365, 32, 32);
 		coca.setBounds(425, 365, 32, 32);
 		
