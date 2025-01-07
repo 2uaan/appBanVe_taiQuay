@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import database.jdbc_new;
 import model_data.*;
@@ -79,6 +80,34 @@ public class staffDAO {
 		}
 	}
 	
+	public staff selectStaffOn() {
+		staff s = null;
+		
+		try {
+			
+			connect = jdbc_new.getConnection();
+			String sql = "SELECT * FROM staff"
+					+ "\nWHERE state = 1";
+			PreparedStatement pst = connect.prepareStatement(sql);
+			ResultSet result = pst.executeQuery();
+			
+			while (result.next()) {
+				s = new staff(
+						result.getInt(1), 
+						result.getString(2), 
+						result.getInt(3) == 1, 
+						result.getString(4));
+			}
+			
+			jdbc_new.closeConnection(connect);
+			connect.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return s;
+	}
+	
 	public void staffOff() {
 		try {
 			
@@ -90,8 +119,8 @@ public class staffDAO {
 			
 			jdbc_new.closeConnection(connect);
 			
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 	

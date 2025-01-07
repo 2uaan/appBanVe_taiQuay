@@ -43,6 +43,11 @@ public class loginView extends JFrame{
 	
 	
 	public loginView() {
+		
+		
+		
+		new staffDAO().staffOff();
+		
 		setTitle("Login");
 		setSize(1000,675);
 		setLocationRelativeTo(null);
@@ -186,6 +191,7 @@ public class loginView extends JFrame{
 				
 				if(check != 0) {
 					stdao.setStateStaff(check);
+					stdao.setStateStaff(id);
 					setVisible(false);
 					new loadingView(1);
 				}else {

@@ -16,7 +16,7 @@ import view.acceptView.loadingView;
 
 public class mainPageView extends JFrame{
 	
-	private JLabel background;
+	private JLabel background, staff_name;
 	private JButton exit, newTicket, ticketSold, allMovie;
 	private JPanel frame;
 	private colors colo = new colors();
@@ -24,6 +24,9 @@ public class mainPageView extends JFrame{
 	private int xloca, yloca;
 	private staffDAO stdao = new staffDAO();
 	
+	public static void main(String[] args) {
+		new mainPageView().setVisible(true);;
+	}
 	
 	public mainPageView() {
 		setTitle("Main Page");
@@ -50,6 +53,11 @@ public class mainPageView extends JFrame{
 		allMovie = new JButton("All Movie");
 		xloca = 330;
 		yloca = 150;
+		
+		staff_name = new JLabel(stdao.selectStaffOn().getStaff_name());
+		staff_name.setBounds(40,20, 150, 40);
+		staff_name.setFont(font.tilt_neon(25).deriveFont(Font.ITALIC));
+		add(staff_name);
 		
 		
 		exit.setBounds(xloca, yloca + 170,150,150);
@@ -78,8 +86,7 @@ public class mainPageView extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new loadingView(0);
-				setVisible(false);
+				loadingView l = new loadingView(0);
 			}
 		});
 		exit.addMouseListener(new MouseListener() {

@@ -10,9 +10,10 @@ import thread.*;
 public class welcomeStaffView extends JFrame{
 	
 	private JLabel background, welcome, admin, load;
-	private JPanel frame, welcomeFrame, in, out;
+	private JPanel frame, welcomeFrame;
 	private colors colo = new colors();
 	private fonT font = new fonT();
+	private JProgressBar bar = new JProgressBar(0,100);
 	
 	public welcomeStaffView() {
 		setTitle("Welcome Admin !!");
@@ -29,7 +30,6 @@ public class welcomeStaffView extends JFrame{
 		welcomeFrame = new JPanel();
 		welcomeFrame.setBounds(100,170,350,400);
 		welcomeFrame.setBackground(colo.back2);
-//		welcomeFrame.setBorder(BorderFactory.createLineBorder(colo.cineYellow));
 		welcomeFrame.setLayout(null);
 		
 		
@@ -48,18 +48,13 @@ public class welcomeStaffView extends JFrame{
 		load.setFont(font.bahnschrift(20));
 		load.setBounds(25, 200, 350, 25);
 		
-		in = new JPanel();
-		in.setBounds(25,230, 0, 20);
-		in.setBackground(colo.cineBlue);
+		bar.setBounds(25,230,300,30);
+		bar.setValue(2000);
+		bar.setForeground(colo.cineBlue);
+		bar.setStringPainted(true);
+    	bar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,0,0,0), BorderFactory.createLineBorder(Color.lightGray, 3)));
 		
-		out = new JPanel();
-		out.setBounds(25,230, 300, 20);
-		out.setBackground(colo.transparent);
-		out.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
-		
-		
-		welcomeFrame.add(out);
-		welcomeFrame.add(in);
+		welcomeFrame.add(bar);
 		welcomeFrame.add(load);
 		welcomeFrame.add(admin);
 		welcomeFrame.add(welcome);
@@ -71,7 +66,7 @@ public class welcomeStaffView extends JFrame{
 		background.setBounds(0,-25,this.getWidth(),this.getHeight());
 		add(background);
 		
-		loading l = new loading(this, in, load, 300, 0);
+		loading l = new loading(this, bar, 0);
 		l.start();
 	}
 	
